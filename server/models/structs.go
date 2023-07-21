@@ -23,7 +23,7 @@ type Tweet struct {
 	CreatedBy uint      `json:"created_by"`
 	CreatedAt string    `json:"created_at"`
 	User      User      `gorm:"foreignKey:CreatedBy" json:"user"`
-	Likes     []Like    `json:"likes"`
+	Likes     []Like    `json:"likes"` // delete likes when tweet is deleted
 	Replies   []Reply   `json:"replies"`
 	Retweets  []Retweet `json:"retweets"`
 	Hashtags  []Hashtag `gorm:"many2many:tweet_hashtags;" json:"hashtags"`
@@ -50,8 +50,8 @@ type Reply struct {
 
 type Follower struct {
 	ID             uint   `gorm:"primaryKey" json:"id"`
-	FollowerUserID uint   `json:"follower_user_id"`
-	FollowedUserID uint   `json:"followed_user_id"`
+	FollowerUserID uint   `json:"follower_user_id"` // the user who follows
+	FollowedUserID uint   `json:"followed_user_id"` // the user who is followed
 	CreatedAt      string `json:"created_at"`
 	FollowerUser   User   `gorm:"foreignKey:FollowerUserID" json:"follower_user"`
 	FollowedUser   User   `gorm:"foreignKey:FollowedUserID" json:"followed_user"`

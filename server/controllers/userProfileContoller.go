@@ -12,6 +12,10 @@ import (
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
+
+	"errors"
+
+	"gorm.io/gorm"
 )
 
 func GetUserData(c *fiber.Ctx) error {
@@ -36,7 +40,7 @@ func GetUserData(c *fiber.Ctx) error {
 	// get the claims
 	claims := token.Claims.(*jwt.StandardClaims)
 
-	// get the user id from the claims
+	// Get the user id from the claims
 	var user models.User
 
 	if claims.Issuer == "" || claims.ExpiresAt < time.Now().Unix() {
@@ -45,12 +49,26 @@ func GetUserData(c *fiber.Ctx) error {
 			"message": "Unauthenticated",
 		})
 	} else {
-		// get the user from the database
-		db.Where("id = ?", claims.Issuer).First(&user)
+		// Get the user from the database along with their likes and tweets
+		if err := db.Where("id = ?", claims.Issuer).First(&user).Error; err != nil {
+			// Check if the user is not found
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+					"message": "User not found",
+				})
+			}
+
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Error getting user data",
+			})
+		}
 	}
 
-	// return the user
-	return c.JSON(user)
+	// At this point, the user's data, including their likes and tweets, is fetched successfully
+	return c.JSON(fiber.Map{
+		"message": "User data",
+		"user":    user,
+	})
 
 }
 

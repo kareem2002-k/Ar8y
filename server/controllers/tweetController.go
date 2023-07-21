@@ -9,6 +9,10 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt"
+
+	"errors"
+
+	"gorm.io/gorm"
 )
 
 func PostTweet(c *fiber.Ctx) error {
@@ -147,7 +151,7 @@ func GetTweetsOfAuthUser(c *fiber.Ctx) error {
 	var tweets []models.Tweet
 
 	// get the tweets of the user from the database and check for errors
-	if err := db.Preload("User").Preload("Likes.User").Preload("Likes.Tweet").Preload("Replies").Preload("Retweets").Preload("Hashtags").Where("created_by = ?", user.ID).Find(&tweets).Error; err != nil {
+	if err := db.Preload("User").Preload("Likes.User").Preload("Likes.Tweet").Preload("Replies").Preload("Replies.User").Preload("Retweets").Preload("Hashtags").Where("created_by = ?", user.ID).Find(&tweets).Error; err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Error getting tweets",
 		})
@@ -572,8 +576,51 @@ func DeleteTweet(c *fiber.Ctx) error {
 		})
 	}
 
-	// delete the tweet from the database and check for errors
+	// First, delete the likes associated with the tweet
+	if err := db.Where("tweet_id = ?", tweet.ID).Delete(&models.Like{}).Error; err != nil {
+		// Check if the error is "record not found"
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			// Likes not found, proceed with deleting retweets
+		} else {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Error deleting likes",
+			})
+		}
+	}
+
+	// Next, delete the retweets associated with the tweet
+	if err := db.Where("tweet_id = ?", tweet.ID).Delete(&models.Retweet{}).Error; err != nil {
+		// Check if the error is "record not found"
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			// Retweets not found, proceed with deleting replies
+		} else {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Error deleting retweets",
+			})
+		}
+	}
+
+	// Finally, delete the replies associated with the tweet
+	if err := db.Where("tweet_id = ?", tweet.ID).Delete(&models.Reply{}).Error; err != nil {
+		// Check if the error is "record not found"
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			// Replies not found, proceed with deleting the tweet
+		} else {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Error deleting replies",
+			})
+		}
+	}
+
+	// Now, delete the tweet itself
 	if err := db.Delete(&tweet).Error; err != nil {
+		// Check if the error is "record not found"
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+				"message": "Tweet not found",
+			})
+		}
+
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Error deleting tweet",
 		})
