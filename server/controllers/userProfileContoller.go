@@ -178,6 +178,24 @@ func ChangeUserPassword(c *fiber.Ctx) error {
 
 	}
 
+	// validate the password
+	if data["old_password"] == "" || data["new_password"] == "" {
+		c.Status(fiber.StatusUnauthorized)
+		return c.JSON(fiber.Map{
+			"message": "Please fill in all the fields",
+		})
+
+	}
+
+	// check if the new password is at least 6 characters long
+	if len(data["new_password"]) < 6 {
+		c.Status(fiber.StatusUnauthorized)
+		return c.JSON(fiber.Map{
+			"message": "Password must be at least 6 characters long",
+		})
+
+	}
+
 	// check if the old password is correct by encrypting it and comparing it to the one in the database
 	if err := bcrypt.CompareHashAndPassword(user.Password, []byte(data["old_password"])); err != nil {
 		c.Status(fiber.StatusUnauthorized)
