@@ -5,6 +5,8 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+
+	Routes "ar8y/server/routes"
 )
 
 func main() {
@@ -13,6 +15,9 @@ func main() {
 
 	// create a new fiber app instance
 	app := fiber.New()
+
+	// register the routes
+	Routes.Setup(app)
 
 	// CORS
 	app.Use(cors.New(cors.Config{
