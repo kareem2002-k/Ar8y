@@ -125,3 +125,13 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+Ar8y/Ar8y.xcodeproj/project.xcworkspace/xcuserdata/kareem.xcuserdatad/UserInterfaceState.xcuserstate
+client/Ar8y/App.js
+client/Ar8y/app.json
+client/Ar8y/assets/adaptive-icon.png
+client/Ar8y/assets/favicon.png
+client/Ar8y/assets/icon.png
+client/Ar8y/assets/splash.png
+client/Ar8y/babel.config.js
+client/Ar8y/package-lock.json
+client/Ar8y/package.json
