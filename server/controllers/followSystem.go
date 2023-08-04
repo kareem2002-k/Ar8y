@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/golang-jwt/jwt"
 	"gorm.io/gorm"
 
 	databaseConnection "ar8y/server/databaseConnection"
@@ -16,46 +15,17 @@ func FollowUser(c *fiber.Ctx) error {
 	// get the database connection
 	var db = databaseConnection.GetDB()
 
-	// get the jwt token from the cookie
-	cookie := c.Cookies("jwt")
-
-	// parse the jwt token
-	token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte(SecretKey), nil
-	})
-
-	if err != nil {
-		c.Status(fiber.StatusUnauthorized)
-		return c.JSON(fiber.Map{
-			"message": "Unauthenticated",
-		})
+	// Get the Auth middleware
+	if err := AuthMiddleware(c); err != nil {
+		return err
 	}
 
-	// get the claims
-	claims := token.Claims.(*jwt.StandardClaims)
-
-	// Get the user id from the claims
-	var user models.User
-
-	if claims.Issuer == "" || claims.ExpiresAt < time.Now().Unix() {
-		c.Status(fiber.StatusUnauthorized)
-		return c.JSON(fiber.Map{
-			"message": "Unauthenticated",
+	// get auth user data from locals
+	user, ok := c.Locals("user").(models.User)
+	if !ok {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Internal server error",
 		})
-	} else {
-		// Get the user from the database along with their likes and tweets
-		if err := db.Preload("Following").Where("id = ?", claims.Issuer).First(&user).Error; err != nil {
-			// Check if the user is not found
-			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-					"message": "User not found",
-				})
-			}
-
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"message": "Error getting user data",
-			})
-		}
 	}
 
 	// check if the user is trying to follow themselves

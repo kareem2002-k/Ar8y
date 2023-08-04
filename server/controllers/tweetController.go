@@ -8,8 +8,6 @@ import (
 
 	"time"
 
-	"github.com/golang-jwt/jwt"
-
 	"errors"
 
 	"gorm.io/gorm"
@@ -21,42 +19,24 @@ func PostTweet(c *fiber.Ctx) error {
 	// get the database connection
 	var db = databaseConnection.GetDB()
 
+	// Get the Auth middleware
+	if err := AuthMiddleware(c); err != nil {
+		return err
+	}
+
+	// get auth user data from locals
+	user, ok := c.Locals("user").(models.User)
+	if !ok {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Internal server error",
+		})
+	}
+
 	if err := c.BodyParser(&data); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "Error parsing body",
 		})
 	}
-
-	// get the jwt token from the cookie
-	cookie := c.Cookies("jwt")
-
-	// parse the jwt token
-	token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte(SecretKey), nil
-	})
-
-	if err != nil {
-		c.Status(fiber.StatusUnauthorized)
-		return c.JSON(fiber.Map{
-			"message": "Unauthenticated",
-		})
-	}
-
-	// get the claims
-	claims := token.Claims.(*jwt.StandardClaims)
-
-	// get the user id from the claims
-	var user models.User
-
-	if claims.Issuer == "" || claims.ExpiresAt < time.Now().Unix() {
-		c.Status(fiber.StatusUnauthorized)
-		return c.JSON(fiber.Map{
-			"message": "Unauthenticated",
-		})
-	} else {
-		// get the user from the database
-		db.Where("id = ?", claims.Issuer).First(&user)
-	} // Now we have the user in the user variable and we can use it to create a tweet
 
 	// checking if the required fields are empty or not
 	if data["content"] == "" {
@@ -116,36 +96,19 @@ func GetTweetsOfAuthUser(c *fiber.Ctx) error {
 	// get the database connection
 	var db = databaseConnection.GetDB()
 
-	// get the jwt token from the cookie
-	cookie := c.Cookies("jwt")
-
-	// parse the jwt token
-	token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte(SecretKey), nil
-	})
-
-	if err != nil {
-		c.Status(fiber.StatusUnauthorized)
-		return c.JSON(fiber.Map{
-			"message": "Unauthenticated",
-		})
+	// Get the Auth middleware
+	if err := AuthMiddleware(c); err != nil {
+		return err
 	}
 
-	// get the claims
-	claims := token.Claims.(*jwt.StandardClaims)
+	// get auth user data from locals
+	user, ok := c.Locals("user").(models.User)
 
-	// get the user id from the claims
-	var user models.User
-
-	if claims.Issuer == "" || claims.ExpiresAt < time.Now().Unix() {
-		c.Status(fiber.StatusUnauthorized)
-		return c.JSON(fiber.Map{
-			"message": "Unauthenticated",
+	if !ok {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Internal server error",
 		})
-	} else {
-		// get the user from the database
-		db.Where("id = ?", claims.Issuer).First(&user)
-	} // Now we have the user in the user variable and we can use it to create a tweet
+	}
 
 	// get the tweets of the user
 	var tweets []models.Tweet
@@ -168,36 +131,19 @@ func LikeTweet(c *fiber.Ctx) error {
 	// get the database connection
 	var db = databaseConnection.GetDB()
 
-	// get the jwt token from the cookie
-	cookie := c.Cookies("jwt")
-
-	// parse the jwt token
-	token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte(SecretKey), nil
-	})
-
-	if err != nil {
-		c.Status(fiber.StatusUnauthorized)
-		return c.JSON(fiber.Map{
-			"message": "Unauthenticated",
-		})
+	// Get the Auth middleware
+	if err := AuthMiddleware(c); err != nil {
+		return err
 	}
 
-	// get the claims
-	claims := token.Claims.(*jwt.StandardClaims)
+	// get auth user data from locals
+	user, ok := c.Locals("user").(models.User)
 
-	// get the user id from the claims
-	var user models.User
-
-	if claims.Issuer == "" || claims.ExpiresAt < time.Now().Unix() {
-		c.Status(fiber.StatusUnauthorized)
-		return c.JSON(fiber.Map{
-			"message": "Unauthenticated",
+	if !ok {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Internal server error",
 		})
-	} else {
-		// get the user from the database
-		db.Where("id = ?", claims.Issuer).First(&user)
-	} // Now we have the user in the user variable and we can use it to create a tweet
+	}
 
 	// get the tweet id from the params
 	tweetId := c.Params("id")
@@ -254,36 +200,19 @@ func ReplyTweet(c *fiber.Ctx) error {
 	// get the database connection
 	var db = databaseConnection.GetDB()
 
-	// get the jwt token from the cookie
-	cookie := c.Cookies("jwt")
-
-	// parse the jwt token
-	token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte(SecretKey), nil
-	})
-
-	if err != nil {
-		c.Status(fiber.StatusUnauthorized)
-		return c.JSON(fiber.Map{
-			"message": "Unauthenticated",
-		})
+	// Get the Auth middleware
+	if err := AuthMiddleware(c); err != nil {
+		return err
 	}
 
-	// get the claims
-	claims := token.Claims.(*jwt.StandardClaims)
+	// get auth user data from locals
+	user, ok := c.Locals("user").(models.User)
 
-	// get the user id from the claims
-	var user models.User
-
-	if claims.Issuer == "" || claims.ExpiresAt < time.Now().Unix() {
-		c.Status(fiber.StatusUnauthorized)
-		return c.JSON(fiber.Map{
-			"message": "Unauthenticated",
+	if !ok {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Internal server error",
 		})
-	} else {
-		// get the user from the database
-		db.Where("id = ?", claims.Issuer).First(&user)
-	} // Now we have the user in the user variable and we can use it to create a tweet
+	}
 
 	// get the tweet id from the params
 	tweetId := c.Params("id")
@@ -346,36 +275,19 @@ func Retweet(c *fiber.Ctx) error {
 	// get the database connection
 	var db = databaseConnection.GetDB()
 
-	// get the jwt token from the cookie
-	cookie := c.Cookies("jwt")
-
-	// parse the jwt token
-	token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte(SecretKey), nil
-	})
-
-	if err != nil {
-		c.Status(fiber.StatusUnauthorized)
-		return c.JSON(fiber.Map{
-			"message": "Unauthenticated",
-		})
+	// Get the Auth middleware
+	if err := AuthMiddleware(c); err != nil {
+		return err
 	}
 
-	// get the claims
-	claims := token.Claims.(*jwt.StandardClaims)
+	// get auth user data from locals
+	user, ok := c.Locals("user").(models.User)
 
-	// get the user id from the claims
-	var user models.User
-
-	if claims.Issuer == "" || claims.ExpiresAt < time.Now().Unix() {
-		c.Status(fiber.StatusUnauthorized)
-		return c.JSON(fiber.Map{
-			"message": "Unauthenticated",
+	if !ok {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Internal server error",
 		})
-	} else {
-		// get the user from the database
-		db.Where("id = ?", claims.Issuer).First(&user)
-	} // Now we have the user in the user variable and we can use it to create a tweet
+	}
 
 	// get the tweet id from the params
 	tweetId := c.Params("id")
@@ -432,36 +344,19 @@ func Bookmark(c *fiber.Ctx) error {
 	// get the database connection
 	var db = databaseConnection.GetDB()
 
-	// get the jwt token from the cookie
-	cookie := c.Cookies("jwt")
-
-	// parse the jwt token
-	token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte(SecretKey), nil
-	})
-
-	if err != nil {
-		c.Status(fiber.StatusUnauthorized)
-		return c.JSON(fiber.Map{
-			"message": "Unauthenticated",
-		})
+	// Get the Auth middleware
+	if err := AuthMiddleware(c); err != nil {
+		return err
 	}
 
-	// get the claims
-	claims := token.Claims.(*jwt.StandardClaims)
+	// get auth user data from locals
+	user, ok := c.Locals("user").(models.User)
 
-	// get the user id from the claims
-	var user models.User
-
-	if claims.Issuer == "" || claims.ExpiresAt < time.Now().Unix() {
-		c.Status(fiber.StatusUnauthorized)
-		return c.JSON(fiber.Map{
-			"message": "Unauthenticated",
+	if !ok {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Internal server error",
 		})
-	} else {
-		// get the user from the database
-		db.Where("id = ?", claims.Issuer).First(&user)
-	} // Now we have the user in the user variable and we can use it to create a tweet
+	}
 
 	// get the tweet id from the params
 	tweetId := c.Params("id")
@@ -519,36 +414,19 @@ func DeleteTweet(c *fiber.Ctx) error {
 	// get the database connection
 	var db = databaseConnection.GetDB()
 
-	// get the jwt token from the cookie
-	cookie := c.Cookies("jwt")
-
-	// parse the jwt token
-	token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte(SecretKey), nil
-	})
-
-	if err != nil {
-		c.Status(fiber.StatusUnauthorized)
-		return c.JSON(fiber.Map{
-			"message": "Unauthenticated",
-		})
+	// Get the Auth middleware
+	if err := AuthMiddleware(c); err != nil {
+		return err
 	}
 
-	// get the claims
-	claims := token.Claims.(*jwt.StandardClaims)
+	// get auth user data from locals
+	user, ok := c.Locals("user").(models.User)
 
-	// get the user id from the claims
-	var user models.User
-
-	if claims.Issuer == "" || claims.ExpiresAt < time.Now().Unix() {
-		c.Status(fiber.StatusUnauthorized)
-		return c.JSON(fiber.Map{
-			"message": "Unauthenticated",
+	if !ok {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Internal server error",
 		})
-	} else {
-		// get the user from the database
-		db.Where("id = ?", claims.Issuer).First(&user)
-	} // Now we have the user in the user variable and we can use it to create a tweet
+	}
 
 	// get the tweet id from the params
 	tweetId := c.Params("id")

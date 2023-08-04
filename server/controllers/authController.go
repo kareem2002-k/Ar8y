@@ -124,15 +124,8 @@ func Register(c *fiber.Ctx) error {
 		})
 	}
 
-	// create cookie with jwt token
-	cookie := fiber.Cookie{
-		Name:     "jwt",
-		Value:    token,
-		Expires:  time.Now().Add(time.Hour * 24), // 1 day
-		HTTPOnly: true,
-	}
-
-	c.Cookie(&cookie)
+	// Set the JWT token in the response header
+	c.Set("Authorization", token)
 
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
 		"message": "User authinticated successfully",
@@ -149,73 +142,61 @@ func Register(c *fiber.Ctx) error {
 // }
 
 func Login(c *fiber.Ctx) error {
+	// Parse request body to get username and password
 	var data map[string]string
 
 	// get the database connection
 	var db = databaseConnection.GetDB()
 
 	if err := c.BodyParser(&data); err != nil {
-		fmt.Printf("Error parsing body in the login controller: %v", err)
-		return err
-	}
-
-	// checking if the required fields are empty or not
-	if data["username"] == "" {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"message": "Username is required",
+			"message": "Error parsing body",
 		})
 	}
 
-	if data["password"] == "" {
+	// Check if the required fields are empty
+	if data["username"] == "" || data["password"] == "" {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"message": "Password is required",
+			"message": "Username and password are required",
 		})
 	}
 
-	// check if the user exists
+	// Get the user from the database based on the provided username
 	var user models.User
 	if err := db.Where("username = ?", data["username"]).First(&user).Error; err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 			"message": "User does not exist",
 		})
 	}
 
-	// check if the password is correct
+	// Check if the password is correct
 	if err := bcrypt.CompareHashAndPassword(user.Password, []byte(data["password"])); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 			"message": "Incorrect password",
 		})
 	}
 
-	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
-		Issuer:    strconv.Itoa(int(user.ID)),            // convert int to string (int is not allowed)
-		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(), // 1 day
-	})
+	// Create a new JWT token
+	token := jwt.New(jwt.SigningMethodHS256)
+	claims := token.Claims.(jwt.MapClaims)
+	claims["userId"] = user.ID
+	claims["exp"] = time.Now().Add(time.Hour * 24).Unix() // 1 day
 
-	// generate jwt token with secret key
-	token, tokenClaimsErr := claims.SignedString([]byte(SecretKey))
-
-	if tokenClaimsErr != nil {
-		c.Status(fiber.StatusBadRequest)
-		return c.JSON(fiber.Map{
-			"message": "User logged in successfully but error creating jwt token",
+	// Sign and get the complete encoded token as a string
+	tokenString, err := token.SignedString([]byte(SecretKey))
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error generating token",
 		})
 	}
 
-	// create cookie with jwt token
-	cookie := fiber.Cookie{
-		Name:     "jwt",
-		Value:    token,
-		Expires:  time.Now().Add(time.Hour * 24), // 1 day
-		HTTPOnly: true,
-	}
+	// Set the JWT token in the response header
+	c.Set("Authorization", tokenString)
 
-	c.Cookie(&cookie)
-
-	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
+	// Return a success response with the JWT token
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "User logged in successfully",
 	})
-
 } // login form in json format
 // {
 // 	"username": "ar8y",
@@ -223,18 +204,10 @@ func Login(c *fiber.Ctx) error {
 // }
 
 func Logout(c *fiber.Ctx) error {
-	// create cookie with jwt token
-	cookie := fiber.Cookie{
-		Name:     "jwt",
-		Value:    "",
-		Expires:  time.Now().Add(-time.Hour * 24), // 1 day
-		HTTPOnly: true,
-	}
+	// Clear the JWT token from the response header
+	c.Set("Authorization", "")
 
-	c.Cookie(&cookie)
-
-	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "User logged out successfully",
 	})
-
 }

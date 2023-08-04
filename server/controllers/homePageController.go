@@ -5,12 +5,8 @@ import (
 
 	databaseConnection "ar8y/server/databaseConnection"
 	models "ar8y/server/models"
-	"errors"
-
-	"github.com/golang-jwt/jwt"
 
 	"github.com/gofiber/fiber/v2"
-	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
 
@@ -18,34 +14,16 @@ func HomePageTweets(c *fiber.Ctx) error {
 	// Get the database connection
 	db := databaseConnection.GetDB()
 
-	// Get the JWT token from the cookie
-	cookie := c.Cookies("jwt")
-
-	// Parse the JWT token
-	token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte(SecretKey), nil
-	})
-
-	if err != nil {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"message": "Unauthenticated",
-		})
+	// Get the Auth middleware
+	if err := AuthMiddleware(c); err != nil {
+		return err
 	}
 
-	// Get the claims
-	claims := token.Claims.(*jwt.StandardClaims)
-
-	// Get the user from the database along with their following list
-	var user models.User
-	if err := db.Preload("Following").Where("id = ?", claims.Issuer).First(&user).Error; err != nil {
-		// Check if the user is not found
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"message": "User not found",
-			})
-		}
+	// get auth user data from locals
+	user, ok := c.Locals("user").(models.User)
+	if !ok {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": "Error getting user data",
+			"message": "Internal server error",
 		})
 	}
 

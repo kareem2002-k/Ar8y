@@ -25,5 +25,16 @@ func Setup(app *fiber.App) {
 	app.Get("/getAuthUserdata", controlers.GetUserData)     // tested
 	app.Post("/follow/:id", controlers.FollowUser)          // tested
 	app.Get("/homePage", controlers.HomePageTweets)         // tested
+	app.Get("/Hello", SayHello)                             // tested")
+
+}
+
+func SayHello(c *fiber.Ctx) error {
+	return c.SendString("Hello, World 👋!")
+
+}
+
+func cretePerson(c *fiber.Ctx) error {
+	return c.SendString("Hello, World 👋!")
 
 }
