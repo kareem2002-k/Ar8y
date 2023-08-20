@@ -15,11 +15,6 @@ func FollowUser(c *fiber.Ctx) error {
 	// get the database connection
 	var db = databaseConnection.GetDB()
 
-	// Get the Auth middleware
-	if err := AuthMiddleware(c); err != nil {
-		return err
-	}
-
 	// get auth user data from locals
 	user, ok := c.Locals("user").(models.User)
 	if !ok {

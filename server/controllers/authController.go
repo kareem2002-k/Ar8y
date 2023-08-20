@@ -176,11 +176,12 @@ func Login(c *fiber.Ctx) error {
 		})
 	}
 
-	// Create a new JWT token
-	token := jwt.New(jwt.SigningMethodHS256)
-	claims := token.Claims.(jwt.MapClaims)
-	claims["userId"] = user.ID
-	claims["exp"] = time.Now().Add(time.Hour * 24).Unix() // 1 day
+	uid := strconv.Itoa(int(user.ID))
+	// Create a new JWT token with StandardClaims
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
+		Issuer:    uid,                                   // convert int to string (int is not allowed)
+		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(), // 1 day
+	})
 
 	// Sign and get the complete encoded token as a string
 	tokenString, err := token.SignedString([]byte(SecretKey))
@@ -197,7 +198,8 @@ func Login(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "User logged in successfully",
 	})
-} // login form in json format
+}
+
 // {
 // 	"username": "ar8y",
 //  "password": "123456",

@@ -11,16 +11,13 @@ import (
 )
 
 func GetUserData(c *fiber.Ctx) error {
-	// Get the Auth middleware
-	if err := AuthMiddleware(c); err != nil {
-		return err
-	}
 
 	// get auth user data from locals
 	user, ok := c.Locals("user").(models.User)
 	if !ok {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": "Internal server error",
+			"message": "Internal server error fuck",
+			"user":    user,
 		})
 	}
 

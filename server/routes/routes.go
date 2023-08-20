@@ -14,6 +14,8 @@ func Setup(app *fiber.App) {
 
 	app.Post("/logout", controlers.Logout) // tested
 
+	app.Use(controlers.AuthMiddleware) // Register the AuthMiddleware first
+
 	app.Post("/tweet", controlers.PostTweet) // tested (with auth) but not tested (without auth) yet
 	// and not tested with hashtags yet
 
