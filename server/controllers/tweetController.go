@@ -91,11 +91,6 @@ func GetTweetsOfAuthUser(c *fiber.Ctx) error {
 	// get the database connection
 	var db = databaseConnection.GetDB()
 
-	// Get the Auth middleware
-	if err := AuthMiddleware(c); err != nil {
-		return err
-	}
-
 	// get auth user data from locals
 	user, ok := c.Locals("user").(models.User)
 
@@ -115,9 +110,46 @@ func GetTweetsOfAuthUser(c *fiber.Ctx) error {
 		})
 	}
 
+	var tweetPosts []models.TweetPost
+
+	for _, tweet := range tweets {
+
+		// check if the user has liked the tweet by searching for the user id in the likes
+		liked := false
+		for _, like := range tweet.Likes {
+			if like.User.ID == user.ID {
+				liked = true
+				break
+			}
+		}
+
+		// check if the user has retweeted the tweet by searching for the user id in the retweets
+		retweeted := false
+		for _, retweet := range tweet.Retweets {
+			if retweet.User.ID == user.ID {
+				retweeted = true
+				break
+			}
+		}
+
+		tweetPosts = append(tweetPosts, models.TweetPost{
+			Content:        tweet.Content,
+			Liked:          liked,
+			Retweeted:      retweeted,
+			AuthorName:     tweet.User.FullName,
+			AuthorUsername: tweet.User.Username,
+			AuthorID:       tweet.User.ID,
+			LikesCount:     len(tweet.Likes),
+			RepliesCount:   len(tweet.Replies),
+			RetweetsCount:  len(tweet.Retweets),
+			PublishedAt:    tweet.CreatedAt,
+		})
+
+	}
+
 	return c.JSON(fiber.Map{
 		"message": "Tweets of the user",
-		"tweets":  tweets,
+		"tweets":  tweetPosts,
 	})
 }
 

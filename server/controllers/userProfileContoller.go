@@ -26,7 +26,6 @@ func GetUserData(c *fiber.Ctx) error {
 		"message": "User data",
 		"user":    user,
 	})
-
 }
 
 func ChangeUserDetails(c *fiber.Ctx) error {

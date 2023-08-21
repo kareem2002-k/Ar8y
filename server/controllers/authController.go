@@ -110,8 +110,7 @@ func Register(c *fiber.Ctx) error {
 	}
 
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
-		Issuer:    strconv.Itoa(int(user.ID)),            // convert int to string (int is not allowed)
-		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(), // 1 day
+		Issuer: strconv.Itoa(int(user.ID)), // convert int to string (int is not allowed)
 	})
 
 	// generate jwt token with secret key
@@ -179,8 +178,7 @@ func Login(c *fiber.Ctx) error {
 	uid := strconv.Itoa(int(user.ID))
 	// Create a new JWT token with StandardClaims
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
-		Issuer:    uid,                                   // convert int to string (int is not allowed)
-		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(), // 1 day
+		Issuer: uid, // convert int to string (int is not allowed)
 	})
 
 	// Sign and get the complete encoded token as a string

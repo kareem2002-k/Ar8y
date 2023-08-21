@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  Ar8y
 //
-//  Created by Kareem Ahmed on 20/08/2023.
+//  Created by Kareem Ahmed on 22/08/2023.
 //
 
 import UIKit
@@ -11,34 +11,17 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         // Do any additional setup after loading the view.
-        
-        if let auth = TokenManager.shared.getToken()  {
-            
-           
-        let storyboard = UIStoryboard(name: "Main", bundle: nil) // Replace with your storyboard name
-                    if let tabBarController = storyboard.instantiateViewController(withIdentifier: "TabBar") as? TabBar {
-                        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                        let delegate = windowScene.delegate as? SceneDelegate {
-                        delegate.window?.rootViewController = tabBarController
-                      }
-                    }
-
-            
-        } else {
-            print("nothing")
-        }
-        
     }
-
+    
     @IBOutlet weak var usernameLabel: UITextField!
+    
     
     @IBOutlet weak var passwordLabel: UITextField!
     
     
-    
-    @IBAction func Login(_ sender: Any) {
-        
+    @IBAction func login(_ sender: Any) {
         UserAuth.shared.Login(username: usernameLabel.text!, password: passwordLabel.text!) { success in
 
             if success {
@@ -66,9 +49,14 @@ class ViewController: UIViewController {
         }
         
     }
-    
-    
-    
-    
-}
+    /*
+    // MARK: - Navigation
 
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
+}

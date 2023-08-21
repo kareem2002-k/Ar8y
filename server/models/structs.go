@@ -81,3 +81,16 @@ type Retweet struct {
 	User      User   `gorm:"foreignKey:UserID" json:"user"`
 	Tweet     Tweet  `gorm:"foreignKey:TweetID" json:"tweet"`
 }
+
+type TweetPost struct {
+	Content        string `json:"content"`
+	LikesCount     int    `json:"likes_count"`
+	RepliesCount   int    `json:"replies_count"`
+	RetweetsCount  int    `json:"retweets_count"`
+	PublishedAt    string `json:"published_at"`
+	AuthorName     string `json:"author_name"`
+	AuthorUsername string `json:"author_username"`
+	AuthorID       uint   `json:"author_id"`
+	Liked          bool   `json:"liked"`
+	Retweeted      bool   `json:"retweeted"`
+}
