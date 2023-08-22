@@ -22,8 +22,18 @@ class UserPostsTableViewController: UITableViewController {
         
         // Register the custom cell class or nib with the table view
         fetchUserPosts()
-        let nib = UINib(nibName: "PostCellTableViewCell", bundle: nil)
-        tableView.register(nib, forCellReuseIdentifier: "postCell")
+        
+        tableView.register(UINib(nibName: "NameTableViewCell", bundle: nil), forCellReuseIdentifier: "namecell")
+        
+        tableView.register(UINib(nibName: "ContentTableViewCell", bundle: nil), forCellReuseIdentifier: "contentcell")
+        
+        tableView.register(UINib(nibName: "ButtonsTableViewCell", bundle: nil), forCellReuseIdentifier: "buttoncell")
+        
+        tableView.separatorStyle = .none // Remove default separators
+        
+        
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 44 // Set an estimated row height, this can be any value
 
          
     }
@@ -52,24 +62,74 @@ class UserPostsTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1 // You might have only one section
+        return userPosts?.count ?? 0  // You might have only one section
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return userPosts?.count ?? 0// Return the number of user posts
+        return 3 // Return the number of user posts
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "postCell", for: indexPath) as! PostCellTableViewCell
-
-              if let post = userPosts?[indexPath.row] {
-                  cell.Content.text = post.Content
-                  cell.Name.text = post.AuthorName
-                  cell.UserName.text = post.AuthorUsername
+        guard let post = userPosts?[indexPath.section] else {
+                  return UITableViewCell()
               }
-
-              return cell
+              
+              switch indexPath.row {
+              case 0:
+                  let cell = tableView.dequeueReusableCell(withIdentifier: "namecell", for: indexPath) as! NameTableViewCell
+                  cell.Fullname.text = post.AuthorUsername
+                  return cell
+                  
+              case 1:
+                  let cell = tableView.dequeueReusableCell(withIdentifier: "contentcell", for: indexPath) as! ContentTableViewCell
+                  cell.content.text = post.Content
+                  return cell
+                  
+              case 2:
+                  let cell = tableView.dequeueReusableCell(withIdentifier: "buttoncell", for: indexPath) as! ButtonsTableViewCell
+                  
+                  cell.likesCount.text = "\(post.LikesCount)"
+                  
+                  if post.Liked {
+                      cell.imageview.image =  UIImage(systemName: "heart.fill")
+                      cell.imageview.tintColor = .red
+                  }else{
+                      cell.imageview.image =  UIImage(systemName: "heart")
+                      cell.imageview.tintColor = .gray
+                  }
+                  
+                  cell.setupImageViewTap() // Enable tap gesture on the image view
+                  // Configure action buttons cell here
+                  return cell
+                  
+              default:
+                  return UITableViewCell()
+              }
     }
+    
+   
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+         if indexPath.row == 0 {
+             return 50 // Height for the name cell
+         } else if indexPath.row == 1 {
+            return 100
+         } else {
+             return 44 // Height for the action cell
+         }
+     }
+     
+    
+      // Helper method to calculate height for content cell
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let separatorView = UIView()
+        separatorView.backgroundColor = UIColor.lightGray // Customize the separator color
+        return separatorView
+    }
+
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 1 // Height of the separator view
+    }
+
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)

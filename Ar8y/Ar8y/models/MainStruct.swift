@@ -8,7 +8,7 @@
 import Foundation
 
 struct TweetPost : Codable {
-    var Content : String
+    var Content : String?
     var LikesCount : Int
     var RepliesCount : Int
     var RetweetsCount : Int

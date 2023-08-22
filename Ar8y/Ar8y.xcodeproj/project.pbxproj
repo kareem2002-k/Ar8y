@@ -9,11 +9,15 @@
 /* Begin PBXBuildFile section */
 		140263C42A93F809007206CB /* MainStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140263C32A93F809007206CB /* MainStruct.swift */; };
 		140263C72A93FD04007206CB /* UserPostsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140263C62A93FD04007206CB /* UserPostsTableViewController.swift */; };
-		140263CA2A93FD7C007206CB /* PostCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140263C82A93FD7C007206CB /* PostCellTableViewCell.swift */; };
-		140263CB2A93FD7C007206CB /* PostCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 140263C92A93FD7C007206CB /* PostCellTableViewCell.xib */; };
 		140263CD2A93FDBF007206CB /* UserPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140263CC2A93FDBF007206CB /* UserPosts.swift */; };
 		140263CF2A940B57007206CB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140263CE2A940B57007206CB /* LoginViewController.swift */; };
 		140263D12A940FFC007206CB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140263D02A940FFC007206CB /* ViewController.swift */; };
+		14B866242A954C0100A5239A /* NameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B866222A954C0100A5239A /* NameTableViewCell.swift */; };
+		14B866252A954C0100A5239A /* NameTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14B866232A954C0100A5239A /* NameTableViewCell.xib */; };
+		14B866282A954C3700A5239A /* ContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B866262A954C3700A5239A /* ContentTableViewCell.swift */; };
+		14B866292A954C3700A5239A /* ContentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14B866272A954C3700A5239A /* ContentTableViewCell.xib */; };
+		14B8662E2A954C6100A5239A /* ButtonsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B8662C2A954C6100A5239A /* ButtonsTableViewCell.swift */; };
+		14B8662F2A954C6100A5239A /* ButtonsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14B8662D2A954C6100A5239A /* ButtonsTableViewCell.xib */; };
 		14D2E9862A92A3F6000B03F6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D2E9852A92A3F6000B03F6 /* AppDelegate.swift */; };
 		14D2E9882A92A3F6000B03F6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D2E9872A92A3F6000B03F6 /* SceneDelegate.swift */; };
 		14D2E98D2A92A3F6000B03F6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14D2E98B2A92A3F6000B03F6 /* Main.storyboard */; };
@@ -30,11 +34,15 @@
 /* Begin PBXFileReference section */
 		140263C32A93F809007206CB /* MainStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainStruct.swift; sourceTree = "<group>"; };
 		140263C62A93FD04007206CB /* UserPostsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostsTableViewController.swift; sourceTree = "<group>"; };
-		140263C82A93FD7C007206CB /* PostCellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellTableViewCell.swift; sourceTree = "<group>"; };
-		140263C92A93FD7C007206CB /* PostCellTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostCellTableViewCell.xib; sourceTree = "<group>"; };
 		140263CC2A93FDBF007206CB /* UserPosts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPosts.swift; sourceTree = "<group>"; };
 		140263CE2A940B57007206CB /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		140263D02A940FFC007206CB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		14B866222A954C0100A5239A /* NameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameTableViewCell.swift; sourceTree = "<group>"; };
+		14B866232A954C0100A5239A /* NameTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NameTableViewCell.xib; sourceTree = "<group>"; };
+		14B866262A954C3700A5239A /* ContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTableViewCell.swift; sourceTree = "<group>"; };
+		14B866272A954C3700A5239A /* ContentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContentTableViewCell.xib; sourceTree = "<group>"; };
+		14B8662C2A954C6100A5239A /* ButtonsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsTableViewCell.swift; sourceTree = "<group>"; };
+		14B8662D2A954C6100A5239A /* ButtonsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ButtonsTableViewCell.xib; sourceTree = "<group>"; };
 		14D2E9822A92A3F6000B03F6 /* Ar8y.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ar8y.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14D2E9852A92A3F6000B03F6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		14D2E9872A92A3F6000B03F6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -68,6 +76,19 @@
 				140263C62A93FD04007206CB /* UserPostsTableViewController.swift */,
 			);
 			path = MainScreens;
+			sourceTree = "<group>";
+		};
+		14B866212A954BCE00A5239A /* Post View */ = {
+			isa = PBXGroup;
+			children = (
+				14B866222A954C0100A5239A /* NameTableViewCell.swift */,
+				14B866232A954C0100A5239A /* NameTableViewCell.xib */,
+				14B866262A954C3700A5239A /* ContentTableViewCell.swift */,
+				14B866272A954C3700A5239A /* ContentTableViewCell.xib */,
+				14B8662C2A954C6100A5239A /* ButtonsTableViewCell.swift */,
+				14B8662D2A954C6100A5239A /* ButtonsTableViewCell.xib */,
+			);
+			path = "Post View";
 			sourceTree = "<group>";
 		};
 		14D2E9792A92A3F6000B03F6 = {
@@ -127,9 +148,8 @@
 		14D2E9A62A92C1DB000B03F6 /* views */ = {
 			isa = PBXGroup;
 			children = (
+				14B866212A954BCE00A5239A /* Post View */,
 				140263C52A93FA55007206CB /* MainScreens */,
-				140263C82A93FD7C007206CB /* PostCellTableViewCell.swift */,
-				140263C92A93FD7C007206CB /* PostCellTableViewCell.xib */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -199,9 +219,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				14D2E9922A92A3F8000B03F6 /* LaunchScreen.storyboard in Resources */,
+				14B8662F2A954C6100A5239A /* ButtonsTableViewCell.xib in Resources */,
 				14D2E98F2A92A3F8000B03F6 /* Assets.xcassets in Resources */,
+				14B866252A954C0100A5239A /* NameTableViewCell.xib in Resources */,
 				14D2E98D2A92A3F6000B03F6 /* Main.storyboard in Resources */,
-				140263CB2A93FD7C007206CB /* PostCellTableViewCell.xib in Resources */,
+				14B866292A954C3700A5239A /* ContentTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,14 +237,16 @@
 				14D2E9A52A92C18B000B03F6 /* HomePageViewController.swift in Sources */,
 				14D2E99B2A92B3D5000B03F6 /* tokenManager.swift in Sources */,
 				14D2E9A82A92C23E000B03F6 /* TabBar.swift in Sources */,
+				14B866242A954C0100A5239A /* NameTableViewCell.swift in Sources */,
 				14D2E9A02A92B48A000B03F6 /* userAuthSystem.swift in Sources */,
 				14D2E9A32A92B4DB000B03F6 /* SystemStructs.swift in Sources */,
 				140263CD2A93FDBF007206CB /* UserPosts.swift in Sources */,
 				14D2E9862A92A3F6000B03F6 /* AppDelegate.swift in Sources */,
-				140263CA2A93FD7C007206CB /* PostCellTableViewCell.swift in Sources */,
+				14B8662E2A954C6100A5239A /* ButtonsTableViewCell.swift in Sources */,
 				140263D12A940FFC007206CB /* ViewController.swift in Sources */,
 				140263C42A93F809007206CB /* MainStruct.swift in Sources */,
 				140263C72A93FD04007206CB /* UserPostsTableViewController.swift in Sources */,
+				14B866282A954C3700A5239A /* ContentTableViewCell.swift in Sources */,
 				140263CF2A940B57007206CB /* LoginViewController.swift in Sources */,
 				14D2E9882A92A3F6000B03F6 /* SceneDelegate.swift in Sources */,
 			);
