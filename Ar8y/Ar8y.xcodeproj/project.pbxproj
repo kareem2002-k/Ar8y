@@ -12,6 +12,7 @@
 		140263CD2A93FDBF007206CB /* UserPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140263CC2A93FDBF007206CB /* UserPosts.swift */; };
 		140263CF2A940B57007206CB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140263CE2A940B57007206CB /* LoginViewController.swift */; };
 		140263D12A940FFC007206CB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140263D02A940FFC007206CB /* ViewController.swift */; };
+		148296E02A97845600CFD020 /* TabBar2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148296DF2A97845600CFD020 /* TabBar2.swift */; };
 		14B866242A954C0100A5239A /* NameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B866222A954C0100A5239A /* NameTableViewCell.swift */; };
 		14B866252A954C0100A5239A /* NameTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14B866232A954C0100A5239A /* NameTableViewCell.xib */; };
 		14B866282A954C3700A5239A /* ContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B866262A954C3700A5239A /* ContentTableViewCell.swift */; };
@@ -37,6 +38,7 @@
 		140263CC2A93FDBF007206CB /* UserPosts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPosts.swift; sourceTree = "<group>"; };
 		140263CE2A940B57007206CB /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		140263D02A940FFC007206CB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		148296DF2A97845600CFD020 /* TabBar2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar2.swift; sourceTree = "<group>"; };
 		14B866222A954C0100A5239A /* NameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameTableViewCell.swift; sourceTree = "<group>"; };
 		14B866232A954C0100A5239A /* NameTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NameTableViewCell.xib; sourceTree = "<group>"; };
 		14B866262A954C3700A5239A /* ContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTableViewCell.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 			children = (
 				14D2E9A42A92C18B000B03F6 /* HomePageViewController.swift */,
 				140263C62A93FD04007206CB /* UserPostsTableViewController.swift */,
+				148296DF2A97845600CFD020 /* TabBar2.swift */,
 			);
 			path = MainScreens;
 			sourceTree = "<group>";
@@ -240,6 +243,7 @@
 				14B866242A954C0100A5239A /* NameTableViewCell.swift in Sources */,
 				14D2E9A02A92B48A000B03F6 /* userAuthSystem.swift in Sources */,
 				14D2E9A32A92B4DB000B03F6 /* SystemStructs.swift in Sources */,
+				148296E02A97845600CFD020 /* TabBar2.swift in Sources */,
 				140263CD2A93FDBF007206CB /* UserPosts.swift in Sources */,
 				14D2E9862A92A3F6000B03F6 /* AppDelegate.swift in Sources */,
 				14B8662E2A954C6100A5239A /* ButtonsTableViewCell.swift in Sources */,

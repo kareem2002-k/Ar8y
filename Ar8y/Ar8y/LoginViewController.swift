@@ -18,7 +18,7 @@ class LoginViewController: UIViewController {
             
            
         let storyboard = UIStoryboard(name: "Main", bundle: nil) // Replace with your storyboard name
-                    if let tabBarController = storyboard.instantiateViewController(withIdentifier: "TabBar") as? TabBar {
+                    if let tabBarController = storyboard.instantiateViewController(withIdentifier: "TabBar2") as? TabBar2 {
                         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                         let delegate = windowScene.delegate as? SceneDelegate {
                         delegate.window?.rootViewController = tabBarController

@@ -78,6 +78,8 @@ class UserPostsTableViewController: UITableViewController {
               case 0:
                   let cell = tableView.dequeueReusableCell(withIdentifier: "namecell", for: indexPath) as! NameTableViewCell
                   cell.Fullname.text = post.AuthorUsername
+                  cell.userName.text = post.AuthorUsername
+                  cell.time.text = post.PublishedAt
                   return cell
                   
               case 1:
@@ -108,15 +110,27 @@ class UserPostsTableViewController: UITableViewController {
     }
     
    
+
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-         if indexPath.row == 0 {
-             return 50 // Height for the name cell
-         } else if indexPath.row == 1 {
-            return 100
-         } else {
-             return 44 // Height for the action cell
-         }
-     }
+        switch indexPath.row {
+        case 0:
+            return 50 // Height for the name cell
+        case 1:
+            // Calculate dynamic height for content cell
+            if let post = userPosts?[indexPath.section] {
+                let contentText = post.Content
+                let contentFont = UIFont.systemFont(ofSize: 17) // Choose your font
+                let labelWidth = tableView.frame.width - 16 // Left and right padding
+                let estimatedHeight = contentText!.height(withConstrainedWidth: labelWidth, font: contentFont)
+                return estimatedHeight + 16 // Add some padding
+            }
+            return 44 // Default height for content cell
+        case 2:
+            return 44 // Height for the action cell
+        default:
+            return 44 // Default height for other cells
+        }
+    }
      
     
       // Helper method to calculate height for content cell
@@ -127,9 +141,16 @@ class UserPostsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 1 // Height of the separator view
+        return 0.5 // Height of the separator view
     }
 
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+          return 2 // Height for the gap between sections
+      }
+
+      override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+          return UIView() // Empty view for section header
+      }
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
@@ -185,4 +206,11 @@ class UserPostsTableViewController: UITableViewController {
     }
     */
 
+}
+extension String {
+    func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
+        return ceil(boundingBox.height)
+    }
 }

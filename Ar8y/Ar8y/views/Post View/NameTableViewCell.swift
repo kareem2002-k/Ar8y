@@ -16,7 +16,9 @@ class NameTableViewCell: UITableViewCell {
 
     @IBOutlet weak var Fullname: UILabel!
     
+    @IBOutlet weak var userName: UILabel!
     
+    @IBOutlet weak var time: UILabel!
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

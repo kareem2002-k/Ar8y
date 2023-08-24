@@ -11,6 +11,10 @@ import (
 	"errors"
 
 	"gorm.io/gorm"
+
+	"math"
+
+	"fmt"
 )
 
 func PostTweet(c *fiber.Ctx) error {
@@ -121,7 +125,30 @@ func GetTweetsOfAuthUser(c *fiber.Ctx) error {
 		likedTweets[like.TweetID] = true
 	}
 
+	currentTimestamp := time.Now().Unix()
+
 	for _, tweet := range tweets {
+
+		createdAt, _ := time.Parse("2006-01-02 15:04:05", tweet.CreatedAt)
+
+		// Calculate the time difference in seconds
+		timeDiff := currentTimestamp - createdAt.Unix()
+
+		var publishedAtString string
+
+		if timeDiff >= 86400 { // More than a day
+			days := int(math.Floor(float64(timeDiff) / 86400))
+			publishedAtString = fmt.Sprintf("%dd", days)
+		} else if timeDiff >= 3600 { // More than an hour
+			hours := int(math.Floor(float64(timeDiff) / 3600))
+			publishedAtString = fmt.Sprintf("%dh", hours)
+		} else if timeDiff >= 60 { // More than a minute
+			minutes := int(math.Floor(float64(timeDiff) / 60))
+			publishedAtString = fmt.Sprintf("%dmin", minutes)
+		} else { // Less than a minute
+			publishedAtString = "Just now"
+		}
+
 		tweetPost := models.TweetPost{
 			Content:        tweet.Content,
 			AuthorName:     tweet.User.FullName,
@@ -130,7 +157,7 @@ func GetTweetsOfAuthUser(c *fiber.Ctx) error {
 			LikesCount:     len(tweet.Likes),
 			RepliesCount:   len(tweet.Replies),
 			RetweetsCount:  len(tweet.Retweets),
-			PublishedAt:    tweet.CreatedAt,
+			PublishedAt:    publishedAtString,
 		}
 
 		// Check if the tweet is liked and retweeted by the user
