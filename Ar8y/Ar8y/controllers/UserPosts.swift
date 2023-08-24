@@ -15,7 +15,7 @@ class UserPosts {
     func fetchUserData(authtoken : String,completion: @escaping (Bool, [TweetPost]?) -> Void) {
         
         // Define the API endpoint URL
-        let apiUrl = "http://localhost:8000/getMyTweets" // Replace with your actual API URL
+        let apiUrl = "http://localhost:8000/homePage" // Replace with your actual API URL
         
         // Define the headers with the authentication token
         let headers: HTTPHeaders = [

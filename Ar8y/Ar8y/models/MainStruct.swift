@@ -18,6 +18,7 @@ struct TweetPost : Codable {
     var AuthorID : Int
     var Liked : Bool
     var Retweeted : Bool
+    var tweetID : Int
     
     
     enum CodingKeys: String, CodingKey {
@@ -31,6 +32,7 @@ struct TweetPost : Codable {
         case AuthorID = "author_id"
         case Liked = "liked"
         case Retweeted = "retweeted"
+        case tweetID = "tweet_id"
     }
 }
 

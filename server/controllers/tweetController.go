@@ -157,6 +157,7 @@ func GetTweetsOfAuthUser(c *fiber.Ctx) error {
 			LikesCount:     len(tweet.Likes),
 			RepliesCount:   len(tweet.Replies),
 			RetweetsCount:  len(tweet.Retweets),
+			TweetID:        tweet.ID,
 			PublishedAt:    publishedAtString,
 		}
 

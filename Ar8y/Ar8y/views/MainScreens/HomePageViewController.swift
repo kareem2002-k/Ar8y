@@ -10,7 +10,35 @@ import UIKit
 class HomePageViewController: UIViewController {
     
     var userPosts: [TweetPost]? // Array to hold user posts
+    
+    var refreshControl = UIRefreshControl()
 
+
+    @IBAction func AddTweet(_ sender: Any) {
+//        UserAuth.shared.Logout {
+//            suc in
+//
+//            if suc {
+//
+//                DispatchQueue.main.async {
+//                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//                    if let tabBarController = storyboard.instantiateViewController(withIdentifier: "Login") as? ViewController {
+//                        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+//                           let delegate = windowScene.delegate as? SceneDelegate {
+//                            delegate.window?.rootViewController = tabBarController
+//                        }
+//                    }
+//                }
+//
+//
+//            }else {
+//                let missingInformationAlert = UIAlertController(title: "Auth Error", message: "Error Logging User Out", preferredStyle: .alert)
+//                let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+//                missingInformationAlert.addAction(cancelAction)
+//                self.present(missingInformationAlert, animated: true, completion: nil)
+//            }
+//        }
+    }
     
 
     @IBOutlet weak var tableView: UITableView!
@@ -18,7 +46,11 @@ class HomePageViewController: UIViewController {
         super.viewDidLoad()
        // Do any additional setup after loading the view.
         // Register the custom cell class or nib with the table view
-              fetchUserPosts()
+        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
+        
+        fetchUserPosts()
+        
+           tableView.refreshControl = refreshControl
               
               tableView.register(UINib(nibName: "NameTableViewCell", bundle: nil), forCellReuseIdentifier: "namecell")
               tableView.register(UINib(nibName: "ContentTableViewCell", bundle: nil), forCellReuseIdentifier: "contentcell")
@@ -33,22 +65,33 @@ class HomePageViewController: UIViewController {
               tableView.dataSource = self
     }
     
+    @objc func refreshData(_ sender: Any) {
+        fetchUserPosts()
+    }
+    
+    
     func fetchUserPosts() {
           
         
         if let authToken = TokenManager.shared.getToken() {
             
             UserPosts.shared.fetchUserData(authtoken: authToken) { success, tweets in
+                
+
                 if success, let fetchedTweets = tweets {
                     self.userPosts = fetchedTweets
                     self.tableView.reloadData()
                 } else {
                     // Handle error condition, e.g., show an error message
                 }
+                self.refreshControl.endRefreshing()
+
             }
         }
         else {
             print("error getting token")
+            refreshControl.endRefreshing()
+
         }
        }
 
@@ -96,6 +139,7 @@ extension HomePageViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "buttoncell", for: indexPath) as! ButtonsTableViewCell
             
             cell.likesCount.text = "\(post.LikesCount)"
+            cell.tweetID = "\(post.tweetID)"
             
             if post.Liked {
                 cell.imageview.image =  UIImage(systemName: "heart.fill")
@@ -119,7 +163,7 @@ extension HomePageViewController: UITableViewDelegate, UITableViewDataSource {
      func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.row {
         case 0:
-            return 50 // Height for the name cell
+            return 44 // Height for the name cell
         case 1:
             // Calculate dynamic height for content cell
             if let post = userPosts?[indexPath.section] {
@@ -150,11 +194,27 @@ extension HomePageViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
      func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 2 // Height for the gap between sections
+        return 0 // Height for the gap between sections
     }
     
      func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return UIView() // Empty view for section header
     }
+    
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+           // Check if you want to allow selection for this particular row
+           if indexPath.row == 2 || indexPath.row == 1 {
+               return nil // Return nil to prevent selection for row 2
+           }
+           return indexPath
+       }
 }
 
+
+extension String {
+    func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
+        return ceil(boundingBox.height)
+    }
+}

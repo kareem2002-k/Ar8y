@@ -8,6 +8,12 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm/clause"
+
+	"fmt"
+
+	"math"
+
+	"time"
 )
 
 func HomePageTweets(c *fiber.Ctx) error {
@@ -48,43 +54,63 @@ func HomePageTweets(c *fiber.Ctx) error {
 		})
 	}
 
-	// Return the tweets in form ot tweetpost
-
 	var tweetPosts []models.TweetPost
+
+	// Create a map to track liked and retweeted tweets
+	likedTweets := make(map[uint]bool)
+	retweetedTweets := make(map[uint]bool)
+
+	// Populate the liked and retweeted tweets maps
+	for _, like := range user.Likes {
+		likedTweets[like.TweetID] = true
+	}
+
+	currentTimestamp := time.Now().Unix()
 
 	for _, tweet := range tweets {
 
-		// check if the user has liked the tweet by searching for the user id in the likes
-		liked := false
-		for _, like := range tweet.Likes {
-			if like.User.ID == user.ID {
-				liked = true
-				break
-			}
+		createdAt, _ := time.Parse("2006-01-02 15:04:05", tweet.CreatedAt)
+
+		// Calculate the time difference in seconds
+		timeDiff := currentTimestamp - createdAt.Unix()
+
+		var publishedAtString string
+
+		if timeDiff >= 86400 { // More than a day
+			days := int(math.Floor(float64(timeDiff) / 86400))
+			publishedAtString = fmt.Sprintf("%dd", days)
+		} else if timeDiff >= 3600 { // More than an hour
+			hours := int(math.Floor(float64(timeDiff) / 3600))
+			publishedAtString = fmt.Sprintf("%dh", hours)
+		} else if timeDiff >= 60 { // More than a minute
+			minutes := int(math.Floor(float64(timeDiff) / 60))
+			publishedAtString = fmt.Sprintf("%dmin", minutes)
+		} else { // Less than a minute
+			publishedAtString = "Just now"
 		}
 
-		// check if the user has retweeted the tweet by searching for the user id in the retweets
-		retweeted := false
-		for _, retweet := range tweet.Retweets {
-			if retweet.User.ID == user.ID {
-				retweeted = true
-				break
-			}
-		}
-
-		tweetPosts = append(tweetPosts, models.TweetPost{
+		tweetPost := models.TweetPost{
 			Content:        tweet.Content,
-			Liked:          liked,
-			Retweeted:      retweeted,
 			AuthorName:     tweet.User.FullName,
 			AuthorUsername: tweet.User.Username,
 			AuthorID:       tweet.User.ID,
 			LikesCount:     len(tweet.Likes),
 			RepliesCount:   len(tweet.Replies),
 			RetweetsCount:  len(tweet.Retweets),
-			PublishedAt:    tweet.CreatedAt,
-		})
+			TweetID:        tweet.ID,
+			PublishedAt:    publishedAtString,
+		}
 
+		// Check if the tweet is liked and retweeted by the user
+		if _, liked := likedTweets[tweet.ID]; liked {
+			tweetPost.Liked = true
+		}
+
+		if _, retweeted := retweetedTweets[tweet.ID]; retweeted {
+			tweetPost.Retweeted = true
+		}
+
+		tweetPosts = append(tweetPosts, tweetPost)
 	}
 
 	return c.JSON(fiber.Map{

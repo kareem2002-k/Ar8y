@@ -9,8 +9,8 @@ import UIKit
 
 class ButtonsTableViewCell: UITableViewCell {
     
-    var isHeartFilled = false // Keep track of the heart state
 
+    let Homepage = HomePageViewController()
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,28 +27,47 @@ class ButtonsTableViewCell: UITableViewCell {
     var img : UIImage?
     
     
+    var tweetID : String?
+    
     func setupImageViewTap() {
            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageViewTapped))
            imageview.addGestureRecognizer(tapGestureRecognizer)
            imageview.isUserInteractionEnabled = true
        }
        
-       @objc private func imageViewTapped() {
-           // Handle the tap action here
-           // Toggle between grey and red heart colors
-                  if isHeartFilled {
-                      imageview.tintColor = UIColor.gray
-                      imageview.image = img
-
-                  } else {
-                      imageview.tintColor = UIColor.red
-                      imageview.image = img
-
-                  }
-                  
-                  // Toggle the heart state
-                  isHeartFilled.toggle()
-       }
+    @objc private func imageViewTapped() {
+        // Handle the tap action here
+        // Toggle between grey and red heart colors
+        if let authtok = TokenManager.shared.getToken(){
+            LikeToggle.shared.Like(authtoken: authtok, tweetID: self.tweetID!, completion: {
+                suc in
+                
+                if suc {
+                    if  self.imageview.image ==  UIImage(systemName: "heart.fill") {
+                        self.likesCount.text = "\(Int( self.likesCount.text ?? "0")! - 1)"
+                        self.imageview.tintColor = UIColor.gray
+                        self.imageview.image =  UIImage(systemName: "heart")
+                        
+                        
+                    } else {
+                        self.imageview.tintColor = UIColor.red
+                        self.imageview.image =  UIImage(systemName: "heart.fill")
+                        self.likesCount.text = "\(Int( self.likesCount.text ?? "0")! + 1)"
+                        
+                    }
+                } else {
+                    let missingInformationAlert = UIAlertController(title: "Auth Error", message: "Invalid Email or Password. Try again.", preferredStyle: .alert)
+                    let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                    missingInformationAlert.addAction(cancelAction)
+                    self.Homepage.present(missingInformationAlert, animated: true, completion: nil)
+                }
+            }
+           
+            )
+            // Toggle the heart state
+        }
+                                   
+    }
     
 
     override func setSelected(_ selected: Bool, animated: Bool) {

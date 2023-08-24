@@ -8,11 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		140263C42A93F809007206CB /* MainStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140263C32A93F809007206CB /* MainStruct.swift */; };
-		140263C72A93FD04007206CB /* UserPostsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140263C62A93FD04007206CB /* UserPostsTableViewController.swift */; };
 		140263CD2A93FDBF007206CB /* UserPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140263CC2A93FDBF007206CB /* UserPosts.swift */; };
-		140263CF2A940B57007206CB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140263CE2A940B57007206CB /* LoginViewController.swift */; };
 		140263D12A940FFC007206CB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140263D02A940FFC007206CB /* ViewController.swift */; };
 		148296E02A97845600CFD020 /* TabBar2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148296DF2A97845600CFD020 /* TabBar2.swift */; };
+		14AE9D1A2A97EEAA00AB7382 /* NVActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = 14AE9D192A97EEAA00AB7382 /* NVActivityIndicatorView */; };
+		14AE9D1F2A9805CE00AB7382 /* LikeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14AE9D1E2A9805CE00AB7382 /* LikeManager.swift */; };
+		14AE9D212A980F4A00AB7382 /* AddNewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14AE9D202A980F4A00AB7382 /* AddNewPostViewController.swift */; };
+		14AE9D232A980FD400AB7382 /* AddNewPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14AE9D222A980FD400AB7382 /* AddNewPost.swift */; };
 		14B866242A954C0100A5239A /* NameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B866222A954C0100A5239A /* NameTableViewCell.swift */; };
 		14B866252A954C0100A5239A /* NameTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14B866232A954C0100A5239A /* NameTableViewCell.xib */; };
 		14B866282A954C3700A5239A /* ContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B866262A954C3700A5239A /* ContentTableViewCell.swift */; };
@@ -34,11 +36,12 @@
 
 /* Begin PBXFileReference section */
 		140263C32A93F809007206CB /* MainStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainStruct.swift; sourceTree = "<group>"; };
-		140263C62A93FD04007206CB /* UserPostsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostsTableViewController.swift; sourceTree = "<group>"; };
 		140263CC2A93FDBF007206CB /* UserPosts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPosts.swift; sourceTree = "<group>"; };
-		140263CE2A940B57007206CB /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		140263D02A940FFC007206CB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		148296DF2A97845600CFD020 /* TabBar2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar2.swift; sourceTree = "<group>"; };
+		14AE9D1E2A9805CE00AB7382 /* LikeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeManager.swift; sourceTree = "<group>"; };
+		14AE9D202A980F4A00AB7382 /* AddNewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewPostViewController.swift; sourceTree = "<group>"; };
+		14AE9D222A980FD400AB7382 /* AddNewPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewPost.swift; sourceTree = "<group>"; };
 		14B866222A954C0100A5239A /* NameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameTableViewCell.swift; sourceTree = "<group>"; };
 		14B866232A954C0100A5239A /* NameTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NameTableViewCell.xib; sourceTree = "<group>"; };
 		14B866262A954C3700A5239A /* ContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTableViewCell.swift; sourceTree = "<group>"; };
@@ -64,6 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14AE9D1A2A97EEAA00AB7382 /* NVActivityIndicatorView in Frameworks */,
 				14D2E99E2A92B442000B03F6 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -75,10 +79,19 @@
 			isa = PBXGroup;
 			children = (
 				14D2E9A42A92C18B000B03F6 /* HomePageViewController.swift */,
-				140263C62A93FD04007206CB /* UserPostsTableViewController.swift */,
 				148296DF2A97845600CFD020 /* TabBar2.swift */,
+				14AE9D202A980F4A00AB7382 /* AddNewPostViewController.swift */,
 			);
 			path = MainScreens;
+			sourceTree = "<group>";
+		};
+		14AE9D1D2A9805AB00AB7382 /* Post Controller */ = {
+			isa = PBXGroup;
+			children = (
+				14AE9D1E2A9805CE00AB7382 /* LikeManager.swift */,
+				14AE9D222A980FD400AB7382 /* AddNewPost.swift */,
+			);
+			path = "Post Controller";
 			sourceTree = "<group>";
 		};
 		14B866212A954BCE00A5239A /* Post View */ = {
@@ -123,7 +136,6 @@
 				14D2E98E2A92A3F8000B03F6 /* Assets.xcassets */,
 				14D2E9902A92A3F8000B03F6 /* LaunchScreen.storyboard */,
 				14D2E9932A92A3F8000B03F6 /* Info.plist */,
-				140263CE2A940B57007206CB /* LoginViewController.swift */,
 				140263D02A940FFC007206CB /* ViewController.swift */,
 			);
 			path = Ar8y;
@@ -132,6 +144,7 @@
 		14D2E9992A92B3BD000B03F6 /* controllers */ = {
 			isa = PBXGroup;
 			children = (
+				14AE9D1D2A9805AB00AB7382 /* Post Controller */,
 				14D2E99A2A92B3D5000B03F6 /* tokenManager.swift */,
 				14D2E99F2A92B48A000B03F6 /* userAuthSystem.swift */,
 				140263CC2A93FDBF007206CB /* UserPosts.swift */,
@@ -175,6 +188,7 @@
 			name = Ar8y;
 			packageProductDependencies = (
 				14D2E99D2A92B442000B03F6 /* Alamofire */,
+				14AE9D192A97EEAA00AB7382 /* NVActivityIndicatorView */,
 			);
 			productName = Ar8y;
 			productReference = 14D2E9822A92A3F6000B03F6 /* Ar8y.app */;
@@ -206,6 +220,7 @@
 			mainGroup = 14D2E9792A92A3F6000B03F6;
 			packageReferences = (
 				14D2E99C2A92B442000B03F6 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				14AE9D182A97EEAA00AB7382 /* XCRemoteSwiftPackageReference "NVActivityIndicatorView" */,
 			);
 			productRefGroup = 14D2E9832A92A3F6000B03F6 /* Products */;
 			projectDirPath = "";
@@ -238,8 +253,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				14D2E9A52A92C18B000B03F6 /* HomePageViewController.swift in Sources */,
+				14AE9D212A980F4A00AB7382 /* AddNewPostViewController.swift in Sources */,
 				14D2E99B2A92B3D5000B03F6 /* tokenManager.swift in Sources */,
+				14AE9D1F2A9805CE00AB7382 /* LikeManager.swift in Sources */,
 				14D2E9A82A92C23E000B03F6 /* TabBar.swift in Sources */,
+				14AE9D232A980FD400AB7382 /* AddNewPost.swift in Sources */,
 				14B866242A954C0100A5239A /* NameTableViewCell.swift in Sources */,
 				14D2E9A02A92B48A000B03F6 /* userAuthSystem.swift in Sources */,
 				14D2E9A32A92B4DB000B03F6 /* SystemStructs.swift in Sources */,
@@ -249,9 +267,7 @@
 				14B8662E2A954C6100A5239A /* ButtonsTableViewCell.swift in Sources */,
 				140263D12A940FFC007206CB /* ViewController.swift in Sources */,
 				140263C42A93F809007206CB /* MainStruct.swift in Sources */,
-				140263C72A93FD04007206CB /* UserPostsTableViewController.swift in Sources */,
 				14B866282A954C3700A5239A /* ContentTableViewCell.swift in Sources */,
-				140263CF2A940B57007206CB /* LoginViewController.swift in Sources */,
 				14D2E9882A92A3F6000B03F6 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -476,6 +492,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		14AE9D182A97EEAA00AB7382 /* XCRemoteSwiftPackageReference "NVActivityIndicatorView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ninjaprox/NVActivityIndicatorView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		14D2E99C2A92B442000B03F6 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -487,6 +511,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		14AE9D192A97EEAA00AB7382 /* NVActivityIndicatorView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 14AE9D182A97EEAA00AB7382 /* XCRemoteSwiftPackageReference "NVActivityIndicatorView" */;
+			productName = NVActivityIndicatorView;
+		};
 		14D2E99D2A92B442000B03F6 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 14D2E99C2A92B442000B03F6 /* XCRemoteSwiftPackageReference "Alamofire" */;

@@ -91,6 +91,7 @@ type TweetPost struct {
 	AuthorName     string `json:"author_name"`
 	AuthorUsername string `json:"author_username"`
 	AuthorID       uint   `json:"author_id"`
+	TweetID        uint   `json:"tweet_id"`
 	Liked          bool   `json:"liked"`
 	Retweeted      bool   `json:"retweeted"`
 }
