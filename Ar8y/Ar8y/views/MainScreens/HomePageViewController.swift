@@ -15,29 +15,6 @@ class HomePageViewController: UIViewController {
 
 
     @IBAction func AddTweet(_ sender: Any) {
-//        UserAuth.shared.Logout {
-//            suc in
-//
-//            if suc {
-//
-//                DispatchQueue.main.async {
-//                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//                    if let tabBarController = storyboard.instantiateViewController(withIdentifier: "Login") as? ViewController {
-//                        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-//                           let delegate = windowScene.delegate as? SceneDelegate {
-//                            delegate.window?.rootViewController = tabBarController
-//                        }
-//                    }
-//                }
-//
-//
-//            }else {
-//                let missingInformationAlert = UIAlertController(title: "Auth Error", message: "Error Logging User Out", preferredStyle: .alert)
-//                let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-//                missingInformationAlert.addAction(cancelAction)
-//                self.present(missingInformationAlert, animated: true, completion: nil)
-//            }
-//        }
     }
     
 
@@ -163,7 +140,7 @@ extension HomePageViewController: UITableViewDelegate, UITableViewDataSource {
      func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.row {
         case 0:
-            return 44 // Height for the name cell
+            return 38 // Height for the name cell
         case 1:
             // Calculate dynamic height for content cell
             if let post = userPosts?[indexPath.section] {
@@ -203,11 +180,37 @@ extension HomePageViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
            // Check if you want to allow selection for this particular row
-           if indexPath.row == 2 || indexPath.row == 1 {
+           if indexPath.row == 2 {
                return nil // Return nil to prevent selection for row 2
            }
            return indexPath
        }
+    
+    
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 1 {
+            // Perform the push to the desired view controller here
+            // For example:
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            if let singlePost = storyboard.instantiateViewController(withIdentifier: "singlePost") as? SinglePostViewController {
+                // Assign data to the receiving variables
+                            singlePost.receivedContent = userPosts?[indexPath.section].Content
+                            singlePost.receivedAuthorName = userPosts?[indexPath.section].AuthorName
+                            singlePost.receivedUsername = userPosts?[indexPath.section].AuthorUsername
+                            singlePost.receivedDate = userPosts?[indexPath.section].PublishedAt
+                            singlePost.receivedLikesCount = userPosts?[indexPath.section].LikesCount
+                            singlePost.receivedLiked = userPosts?[indexPath.section].Liked
+                            
+
+                
+                // Configure the detailViewController if needed
+                navigationController?.pushViewController(singlePost, animated: false)
+            }
+        }
+    }
+
 }
 
 

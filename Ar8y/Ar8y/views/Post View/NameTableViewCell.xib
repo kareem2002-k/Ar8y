@@ -4,7 +4,6 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,38 +17,38 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="TJU-XH-pzd">
-                        <rect key="frame" x="48.999999999999986" y="8.0000000000000018" width="172.66666666666663" height="23.666666666666671"/>
+                        <rect key="frame" x="49" y="-46.333333333333336" width="178" height="136.66666666666663"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kareem" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vb1-BS-b0d">
-                                <rect key="frame" x="0.0" y="0.66666666666666607" width="57.333333333333336" height="22.666666666666671"/>
-                                <fontDescription key="fontDescription" name="PingFangHK-Regular" family="PingFang HK" pointSize="16"/>
-                                <nil key="textColor"/>
+                                <rect key="frame" x="0.0" y="58.999999999999993" width="55.333333333333336" height="18.666666666666664"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="@kareem" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eq3-Xh-n3i">
-                                <rect key="frame" x="65.333333333333329" y="3.3333333333333339" width="51.333333333333329" height="17"/>
-                                <fontDescription key="fontDescription" name="KohinoorBangla-Regular" family="Kohinoor Bangla" pointSize="12"/>
-                                <color key="textColor" systemColor="opaqueSeparatorColor"/>
+                                <rect key="frame" x="63.333333333333329" y="60.333333333333336" width="57.666666666666671" height="16.333333333333336"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Just now" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xh9-AG-ZHO">
-                                <rect key="frame" x="124.66666666666666" y="3.3333333333333339" width="48" height="17"/>
-                                <fontDescription key="fontDescription" name="KohinoorBangla-Regular" family="Kohinoor Bangla" pointSize="12"/>
-                                <color key="textColor" systemColor="opaqueSeparatorColor"/>
+                                <rect key="frame" x="129" y="61.333333333333343" width="49" height="14"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
+                                <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                     </stackView>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.circle.fill" catalog="system" id="f8n-Lm-uPt">
-                        <rect key="frame" x="5" y="6" width="35" height="33"/>
+                        <rect key="frame" x="6" y="6" width="35" height="33"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="tintColor" systemColor="labelColor"/>
+                        <color key="tintColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </imageView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="TJU-XH-pzd" secondAttribute="bottom" constant="12.33" id="6jm-7K-Ytf"/>
-                    <constraint firstItem="TJU-XH-pzd" firstAttribute="leading" secondItem="f8n-Lm-uPt" secondAttribute="trailing" constant="9" id="LEx-t9-pqE"/>
-                    <constraint firstItem="TJU-XH-pzd" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="bj2-ou-7aX"/>
+                    <constraint firstItem="TJU-XH-pzd" firstAttribute="leading" secondItem="f8n-Lm-uPt" secondAttribute="trailing" constant="8" id="1b9-W4-E4a"/>
+                    <constraint firstItem="TJU-XH-pzd" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-57.333333333333336" id="c3y-MS-5Sx"/>
+                    <constraint firstItem="TJU-XH-pzd" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="wCv-QU-Maw"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
@@ -63,11 +62,5 @@
     </objects>
     <resources>
         <image name="person.circle.fill" catalog="system" width="128" height="123"/>
-        <systemColor name="labelColor">
-            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="opaqueSeparatorColor">
-            <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
     </resources>
 </document>
