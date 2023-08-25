@@ -21,6 +21,10 @@ class HomePageViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        hidesBottomBarWhenPushed = false
+
        // Do any additional setup after loading the view.
         // Register the custom cell class or nib with the table view
         refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
@@ -194,7 +198,7 @@ extension HomePageViewController: UITableViewDelegate, UITableViewDataSource {
             // Perform the push to the desired view controller here
             // For example:
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            if let singlePost = storyboard.instantiateViewController(withIdentifier: "singlePost") as? SinglePostViewController {
+            if let singlePost = storyboard.instantiateViewController(withIdentifier: "singlePost") as? SinglePostView {
                 // Assign data to the receiving variables
                             singlePost.receivedContent = userPosts?[indexPath.section].Content
                             singlePost.receivedAuthorName = userPosts?[indexPath.section].AuthorName
