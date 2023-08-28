@@ -116,5 +116,6 @@ func HomePageTweets(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{
 		"message": "Home page tweets",
 		"tweets":  tweetPosts,
+		"id":      user.ID,
 	})
 }

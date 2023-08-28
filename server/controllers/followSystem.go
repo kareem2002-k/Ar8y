@@ -9,6 +9,8 @@ import (
 
 	databaseConnection "ar8y/server/databaseConnection"
 	"ar8y/server/models"
+
+	"strconv"
 )
 
 func FollowUser(c *fiber.Ctx) error {
@@ -23,67 +25,62 @@ func FollowUser(c *fiber.Ctx) error {
 		})
 	}
 
-	// check if the user is trying to follow themselves
-	if string(user.ID) == c.Params("id") {
+	// check if the user is trying to follow himself
+	if strconv.Itoa(int(user.ID)) == c.Params("id") {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"message": "You cannot follow yourself",
+			"message": "You can't follow yourself",
 		})
 	}
 
-	// check if the user already follows the other user
-	var follower models.Follower
-
 	// get the followed user
 	var followedUser models.User
-
 	if err := db.Where("id = ?", c.Params("id")).First(&followedUser).Error; err != nil {
-		// Check if the user is not found
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 				"message": "User not found",
 			})
 		}
-
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Error getting user data",
 		})
 	}
 
-	if err := db.Where("follower_user_id = ? AND followed_user_id = ?", user.ID, followedUser.ID).First(&follower).Error; err != nil {
-		// Check if the user is not found
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			// create the follower
-			follower = models.Follower{
-				CreatedAt:    time.Now().Format("2006-01-02 15:04:05"),
-				FollowerUser: user,
-				FollowedUser: followedUser,
-			}
-
-			if err := db.Create(&follower).Error; err != nil {
-				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-					"message": "Error following user",
-				})
-			}
-
-		}
-
-	} else {
-		// remove the follower
-		if err := db.Delete(&follower).Error; err != nil {
+	// Check if the follower relationship exists
+	var existingFollower models.Follower
+	err := db.Where("follower_user_id = ? AND followed_user_id = ?", user.ID, followedUser.ID).First(&existingFollower).Error
+	if err == nil {
+		// Follower relationship already exists, delete it to unfollow
+		if err := db.Delete(&existingFollower).Error; err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"message": "Error unfollowing user",
 			})
-		} else {
-			return c.Status(fiber.StatusOK).JSON(fiber.Map{
-				"message": "Follower removed",
-			})
 		}
+		return c.Status(fiber.StatusOK).JSON(fiber.Map{
+			"message": "Unfollowed successfully",
+		})
+	} else if !errors.Is(err, gorm.ErrRecordNotFound) {
+		// An error occurred while checking for the existing follower
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error checking follower relationship",
+		})
+	}
 
+	// Create the follower relationship
+	follower := models.Follower{
+		CreatedAt:      time.Now().Format("2006-01-02 15:04:05"),
+		FollowerUser:   user,
+		FollowedUser:   followedUser,
+		FollowerUserID: user.ID,
+		FollowedUserID: followedUser.ID,
+	}
+
+	if err := db.Create(&follower).Error; err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error following user",
+		})
 	}
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"message":  "Success",
-		"follower": follower,
+		"message": "Followed successfully",
 	})
-
 }

@@ -40,6 +40,7 @@ struct TweetPost : Codable {
 
 struct TweetPostRespnse: Codable {
     let tweets: [TweetPost]?
+    
 }
 
 

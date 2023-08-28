@@ -32,6 +32,7 @@ class UserPosts {
                         do {
                             let Resp = try JSONDecoder().decode(TweetPostRespnse.self, from: responseData)
                             let tweets = Resp.tweets
+                            
                             completion(true,tweets)
                         } catch {
                             print("Error decoding user data: \(error)")

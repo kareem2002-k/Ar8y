@@ -26,7 +26,8 @@ class SingleUserViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-       
+
+        
         loadingIndicator = NVActivityIndicatorView(
               frame: CGRect(x: 0, y: 0, width: 40, height: 40),
               type: .circleStrokeSpin,
@@ -41,6 +42,8 @@ class SingleUserViewController: UIViewController {
         
         fetchUserData()
         fetchUserPosts()
+
+        
 
         tableView.refreshControl = refreshControl
 
@@ -80,8 +83,8 @@ class SingleUserViewController: UIViewController {
     
     
     
-    @IBOutlet weak var numberOfFollowers: UIStackView!
-    
+  
+    @IBOutlet weak var numberOfFollowers: UILabel!
     
     
     @IBOutlet weak var tableView: UITableView!
@@ -91,9 +94,43 @@ class SingleUserViewController: UIViewController {
     
     
     @IBAction func followOrUnfollow(_ sender: Any) {
-    }
-    
-    
+        
+        if let authtok = TokenManager.shared.getToken() {
+                FollowController.shared.FollowOrUnFollow(authtoken: authtok, userID: "\(id)") { [weak self] success in
+                    guard let self = self else { return }
+                    
+                    if success {
+                        // Toggle the IsFollowedByAuthUser state
+                        self.user!.IsFollowedByAuthUser = !self.user!.IsFollowedByAuthUser
+                        
+                        if self.user!.IsFollowedByAuthUser {
+                            self.numberOfFollowers.text = "\(self.user!.NumbOfFollowers   + 1)"
+
+                        } else {
+                            self.numberOfFollowers.text = "\(self.user!.NumbOfFollowers - 1)"
+
+                        }
+                        
+                        // Update the button title and appearance based on the new state
+                        self.updateFollowButtonState()
+                    }
+                }
+            }
+        }
+
+        func updateFollowButtonState() {
+            if user!.IsFollowedByAuthUser {
+                followButton.setTitle("Unfollow", for: .normal)
+
+                
+                // You can update other UI properties here for the "following" state
+            } else {
+                followButton.setTitle("Follow", for: .normal)
+
+                // You can update other UI properties here for the "not following" state
+            }
+        }
+
     
     // Hide the bottom Nav bar
     
@@ -121,7 +158,7 @@ class SingleUserViewController: UIViewController {
         if let authToken = TokenManager.shared.getToken() {
             self.loadingIndicator.stopAnimating()
 
-            ProfileData.shared.fetchUserData(for: id, authtoken: authToken) {
+            ProfileData.shared.fetchUserData(for: id, authtoken: authToken) { [self]
 
                 suc , data in
                 
@@ -133,6 +170,10 @@ class SingleUserViewController: UIViewController {
                     self.userNameLable.text = self.user?.Username
                     self.bioLabel.text = self.user?.Bio
                     self.numberOfFollowing.text = "\(self.user!.NumbOfFollowing)"
+                    self.numberOfFollowers.text = "\(self.user!.NumbOfFollowers)"
+                   
+                        updateFollowButtonState()
+                        
                     
                     
                     

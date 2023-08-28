@@ -15,6 +15,7 @@ class UserAuth {
     var CurrentUser : User!
     
     var isAuth : Bool = false
+    
 
     func fetchUserData(authtoken : String,completion: @escaping (User?, Error?) -> Void) {
         

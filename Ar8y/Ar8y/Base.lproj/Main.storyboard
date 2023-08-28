@@ -396,7 +396,7 @@
                         <outlet property="bioLabel" destination="9FG-l0-yHf" id="Soy-5c-EKP"/>
                         <outlet property="followButton" destination="PH7-4s-uPJ" id="rDQ-3x-hZj"/>
                         <outlet property="fullnameLabel" destination="SGt-Yl-XL4" id="Y8D-Ie-DG7"/>
-                        <outlet property="numberOfFollowers" destination="vdR-mV-0QU" id="Xrs-q7-tC4"/>
+                        <outlet property="numberOfFollowers" destination="tLS-5Y-vHF" id="BpA-VV-tVT"/>
                         <outlet property="numberOfFollowing" destination="0Cp-1l-IXU" id="1SH-8w-j0q"/>
                         <outlet property="tableView" destination="rwO-96-V9i" id="hfo-EQ-c68"/>
                         <outlet property="userNameLable" destination="Sxh-ge-QFI" id="Keb-0Y-Ozh"/>
@@ -404,7 +404,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jVs-Gc-XWo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="10317" y="912"/>
+            <point key="canvasLocation" x="10180" y="912"/>
         </scene>
         <!--Single Post View-->
         <scene sceneID="trW-RS-xIT">
