@@ -14,7 +14,7 @@ class LikeToggle {
     func Like(authtoken : String ,tweetID : String,completion: @escaping ( Bool) -> Void) {
         
         // Define the API endpoint URL
-        let apiUrl = "http://localhost:8000/like/\(tweetID)" // Replace with your actual API URL
+        let apiUrl = "http://192.168.1.13:8000/like/\(tweetID)" // Replace with your actual API URL
         
         // Define the headers with the authentication token
         let headers: HTTPHeaders = [

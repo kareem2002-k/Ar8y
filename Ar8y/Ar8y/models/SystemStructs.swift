@@ -45,6 +45,11 @@ struct UserResponse: Codable {
 
 
 
+
+struct SearchRespones: Codable {
+    let users: [UserProfiLe]
+}
+
 struct  Follower : Codable {
     var ID: Int
     var FollowerUserID: Int

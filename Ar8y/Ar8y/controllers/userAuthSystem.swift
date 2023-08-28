@@ -20,7 +20,7 @@ class UserAuth {
     func fetchUserData(authtoken : String,completion: @escaping (User?, Error?) -> Void) {
         
             // Define the API endpoint URL
-            let apiUrl = "http://localhost:8000/getAuthUserdata" // Replace with your actual API URL
+            let apiUrl = "http://192.168.1.13:8000/getAuthUserdata" // Replace with your actual API URL
             
             // Define the headers with the authentication token
             let headers: HTTPHeaders = [
@@ -59,7 +59,7 @@ class UserAuth {
     
     func Login (username : String, password :String ,completion: @escaping (Bool) -> Void)  {
         
-        let loginURL = "http://localhost:8000/login"
+        let loginURL = "http://192.168.1.13:8000/login"
         let parameters: [String: Any] = ["username": username, "password": password]
         AF.request(loginURL, method: .post, parameters: parameters, encoding: JSONEncoding.default)
             .validate(statusCode: 200..<300)
@@ -103,7 +103,7 @@ class UserAuth {
     
     func Register (email : String, password :String , firstname : String , lastname : String ,completion: @escaping (Bool) -> Void) {
         
-        let loginURL = "http://localhost:8000/register"
+        let loginURL = "http://192.168.1.13:8000/register"
         let parameters: [String: Any] = ["email": email, "password": password ,"fullname" : "\(firstname) \(lastname)"]
         
         

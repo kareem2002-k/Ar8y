@@ -68,6 +68,10 @@
             <connections>
                 <outlet property="imageview" destination="UGm-eV-uyo" id="vEU-S7-ljZ"/>
                 <outlet property="likesCount" destination="2D0-qn-E0D" id="L9F-T3-lbs"/>
+                <outlet property="repliesCount" destination="5qs-RB-js2" id="CWN-94-tht"/>
+                <outlet property="replyImg" destination="GzK-cN-bti" id="LAT-E3-HqI"/>
+                <outlet property="retweetCount" destination="20r-Tq-iCN" id="DBQ-vZ-5XM"/>
+                <outlet property="retweetImg" destination="l7s-oQ-7o6" id="i39-h5-pCZ"/>
             </connections>
             <point key="canvasLocation" x="100.76335877862596" y="19.718309859154932"/>
         </tableViewCell>

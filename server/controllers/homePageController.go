@@ -119,3 +119,62 @@ func HomePageTweets(c *fiber.Ctx) error {
 		"id":      user.ID,
 	})
 }
+
+func SearchforUsers(c *fiber.Ctx) error {
+	// Get the database connection
+	db := databaseConnection.GetDB()
+
+	// Get auth user data from locals
+	authUser, ok := c.Locals("user").(models.User)
+	if !ok {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Internal server error",
+		})
+	}
+
+	// Load the user's following
+	if err := db.Preload("Following").First(&authUser, authUser.ID).Error; err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error getting user data",
+		})
+	}
+
+	// Make a query to the database to get the users that match the search query
+	var users []models.User
+
+	// Search by username and full name
+	searchQuery := c.Query("q")
+	if err := db.Where("username LIKE ? OR full_name LIKE ?", "%"+searchQuery+"%", "%"+searchQuery+"%").Find(&users).Error; err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error getting users",
+		})
+	}
+
+	var userProfiles []models.UserProfile
+
+	for _, user := range users {
+		var userProfile models.UserProfile
+
+		userProfile.ID = user.ID
+		userProfile.Username = user.Username
+		userProfile.FullName = user.FullName
+		userProfile.Bio = user.Bio
+		userProfile.NumbOfFollowers = len(user.Followers)
+		userProfile.NumbOfFollowing = len(user.Following)
+
+		// Check if the user is followed by the authenticated user
+		for _, follower := range authUser.Following {
+			if follower.FollowedUserID == user.ID {
+				userProfile.IsFollowedByAuthUser = true
+				break
+			}
+		}
+
+		userProfiles = append(userProfiles, userProfile)
+	}
+
+	return c.JSON(fiber.Map{
+		"message": "Users",
+		"users":   userProfiles,
+	})
+}

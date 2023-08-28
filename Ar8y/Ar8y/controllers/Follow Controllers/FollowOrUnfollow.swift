@@ -14,7 +14,7 @@ class FollowController {
     func FollowOrUnFollow(authtoken : String ,userID : String,completion: @escaping ( Bool) -> Void) {
         
         // Define the API endpoint URL
-        let apiUrl = "http://localhost:8000/follow/\(userID)" // Replace with your actual API URL
+        let apiUrl = "http://192.168.1.13:8000/follow/\(userID)" // Replace with your actual API URL
         
         // Define the headers with the authentication token
         let headers: HTTPHeaders = [

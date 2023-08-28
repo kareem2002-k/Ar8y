@@ -18,7 +18,18 @@ class ButtonsTableViewCell: UITableViewCell {
         
         
     }
+    @IBOutlet weak var replyImg: UIImageView!
     
+    
+    @IBOutlet weak var retweetImg: UIImageView!
+    
+    
+    @IBOutlet weak var retweetCount: UILabel!
+    
+    
+    
+    
+    @IBOutlet weak var repliesCount: UILabel!
     
     @IBOutlet weak var likesCount: UILabel!
     

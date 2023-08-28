@@ -31,4 +31,6 @@ func Setup(app *fiber.App) {
 	app.Get("/getUser/:id", controlers.GetSpecficUser)         // tested
 	app.Get("/getTweets/:id", controlers.GetSpecficUserTweets) // tested
 
+	app.Get("/search", controlers.SearchforUsers)
+
 }

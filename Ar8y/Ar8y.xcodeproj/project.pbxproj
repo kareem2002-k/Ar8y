@@ -13,6 +13,10 @@
 		141B56F72A9C8DEE000CE9D4 /* SingleUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B56F62A9C8DEE000CE9D4 /* SingleUserViewController.swift */; };
 		141B56FA2A9C9FAC000CE9D4 /* ProfileData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B56F92A9C9FAC000CE9D4 /* ProfileData.swift */; };
 		141B56FD2A9CB7CB000CE9D4 /* FollowOrUnfollow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B56FC2A9CB7CB000CE9D4 /* FollowOrUnfollow.swift */; };
+		141B56FF2A9D0A6E000CE9D4 /* SearchTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B56FE2A9D0A6E000CE9D4 /* SearchTabViewController.swift */; };
+		141B57022A9D0AEB000CE9D4 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B57012A9D0AEB000CE9D4 /* SearchController.swift */; };
+		141B57062A9D10C3000CE9D4 /* UserShowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B57042A9D10C3000CE9D4 /* UserShowTableViewCell.swift */; };
+		141B57072A9D10C3000CE9D4 /* UserShowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141B57052A9D10C3000CE9D4 /* UserShowTableViewCell.xib */; };
 		145703FF2A98E08100A634E2 /* SinglePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145703FE2A98E08100A634E2 /* SinglePostView.swift */; };
 		148296E02A97845600CFD020 /* TabBar2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148296DF2A97845600CFD020 /* TabBar2.swift */; };
 		14AE9D1A2A97EEAA00AB7382 /* NVActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = 14AE9D192A97EEAA00AB7382 /* NVActivityIndicatorView */; };
@@ -45,6 +49,10 @@
 		141B56F62A9C8DEE000CE9D4 /* SingleUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleUserViewController.swift; sourceTree = "<group>"; };
 		141B56F92A9C9FAC000CE9D4 /* ProfileData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileData.swift; sourceTree = "<group>"; };
 		141B56FC2A9CB7CB000CE9D4 /* FollowOrUnfollow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowOrUnfollow.swift; sourceTree = "<group>"; };
+		141B56FE2A9D0A6E000CE9D4 /* SearchTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTabViewController.swift; sourceTree = "<group>"; };
+		141B57012A9D0AEB000CE9D4 /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
+		141B57042A9D10C3000CE9D4 /* UserShowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserShowTableViewCell.swift; sourceTree = "<group>"; };
+		141B57052A9D10C3000CE9D4 /* UserShowTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserShowTableViewCell.xib; sourceTree = "<group>"; };
 		145703FE2A98E08100A634E2 /* SinglePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePostView.swift; sourceTree = "<group>"; };
 		148296DF2A97845600CFD020 /* TabBar2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar2.swift; sourceTree = "<group>"; };
 		14AE9D1E2A9805CE00AB7382 /* LikeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeManager.swift; sourceTree = "<group>"; };
@@ -91,6 +99,7 @@
 				14AE9D202A980F4A00AB7382 /* AddNewPostViewController.swift */,
 				145703FE2A98E08100A634E2 /* SinglePostView.swift */,
 				141B56F62A9C8DEE000CE9D4 /* SingleUserViewController.swift */,
+				141B56FE2A9D0A6E000CE9D4 /* SearchTabViewController.swift */,
 			);
 			path = MainScreens;
 			sourceTree = "<group>";
@@ -109,6 +118,23 @@
 				141B56FC2A9CB7CB000CE9D4 /* FollowOrUnfollow.swift */,
 			);
 			path = "Follow Controllers";
+			sourceTree = "<group>";
+		};
+		141B57002A9D0AD3000CE9D4 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				141B57012A9D0AEB000CE9D4 /* SearchController.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		141B57032A9D10A2000CE9D4 /* User View */ = {
+			isa = PBXGroup;
+			children = (
+				141B57042A9D10C3000CE9D4 /* UserShowTableViewCell.swift */,
+				141B57052A9D10C3000CE9D4 /* UserShowTableViewCell.xib */,
+			);
+			path = "User View";
 			sourceTree = "<group>";
 		};
 		14AE9D1D2A9805AB00AB7382 /* Post Controller */ = {
@@ -170,6 +196,7 @@
 		14D2E9992A92B3BD000B03F6 /* controllers */ = {
 			isa = PBXGroup;
 			children = (
+				141B57002A9D0AD3000CE9D4 /* Search */,
 				141B56FB2A9CB7AC000CE9D4 /* Follow Controllers */,
 				141B56F82A9C9F4B000CE9D4 /* Non Auth UserProfile */,
 				14AE9D1D2A9805AB00AB7382 /* Post Controller */,
@@ -192,6 +219,7 @@
 		14D2E9A62A92C1DB000B03F6 /* views */ = {
 			isa = PBXGroup;
 			children = (
+				141B57032A9D10A2000CE9D4 /* User View */,
 				14B866212A954BCE00A5239A /* Post View */,
 				140263C52A93FA55007206CB /* MainScreens */,
 			);
@@ -270,6 +298,7 @@
 				14B866252A954C0100A5239A /* NameTableViewCell.xib in Resources */,
 				14D2E98D2A92A3F6000B03F6 /* Main.storyboard in Resources */,
 				14B866292A954C3700A5239A /* ContentTableViewCell.xib in Resources */,
+				141B57072A9D10C3000CE9D4 /* UserShowTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,6 +310,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				14D2E9A52A92C18B000B03F6 /* HomePageViewController.swift in Sources */,
+				141B57062A9D10C3000CE9D4 /* UserShowTableViewCell.swift in Sources */,
 				141B56FD2A9CB7CB000CE9D4 /* FollowOrUnfollow.swift in Sources */,
 				14AE9D212A980F4A00AB7382 /* AddNewPostViewController.swift in Sources */,
 				14D2E99B2A92B3D5000B03F6 /* tokenManager.swift in Sources */,
@@ -290,11 +320,13 @@
 				14AE9D232A980FD400AB7382 /* AddNewPost.swift in Sources */,
 				14B866242A954C0100A5239A /* NameTableViewCell.swift in Sources */,
 				14D2E9A02A92B48A000B03F6 /* userAuthSystem.swift in Sources */,
+				141B56FF2A9D0A6E000CE9D4 /* SearchTabViewController.swift in Sources */,
 				14D2E9A32A92B4DB000B03F6 /* SystemStructs.swift in Sources */,
 				148296E02A97845600CFD020 /* TabBar2.swift in Sources */,
 				140263CD2A93FDBF007206CB /* UserPosts.swift in Sources */,
 				14D2E9862A92A3F6000B03F6 /* AppDelegate.swift in Sources */,
 				14B8662E2A954C6100A5239A /* ButtonsTableViewCell.swift in Sources */,
+				141B57022A9D0AEB000CE9D4 /* SearchController.swift in Sources */,
 				140263D12A940FFC007206CB /* ViewController.swift in Sources */,
 				141B56F72A9C8DEE000CE9D4 /* SingleUserViewController.swift in Sources */,
 				140263C42A93F809007206CB /* MainStruct.swift in Sources */,
@@ -447,6 +479,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = C9TUU9DT79;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Ar8y/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -477,6 +510,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = C9TUU9DT79;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Ar8y/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
