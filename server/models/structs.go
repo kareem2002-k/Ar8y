@@ -95,3 +95,22 @@ type TweetPost struct {
 	Liked          bool   `json:"liked"`
 	Retweeted      bool   `json:"retweeted"`
 }
+
+type ReplyPost struct {
+	Content        string `json:"content"`
+	AuthorName     string `json:"author_name"`
+	AuthorID       uint   `json:"author_id"`
+	AuthorUsername string `json:"author_username"`
+	ReplyID        uint   `json:"reply_id"`
+	PublishedAt    string `json:"published_at"`
+}
+
+type UserProfile struct {
+	ID                   uint   `json:"id"`
+	Username             string `json:"username"`
+	FullName             string `json:"full_name"`
+	Bio                  string `json:"bio"`
+	NumbOfFollowers      int    `json:"numb_of_followers"`
+	NumbOfFollowing      int    `json:"numb_of_following"`
+	IsFollowedByAuthUser bool   `json:"is_followed_by_auth_user"`
+}

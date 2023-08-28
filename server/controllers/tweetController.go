@@ -250,11 +250,6 @@ func ReplyTweet(c *fiber.Ctx) error {
 	// get the database connection
 	var db = databaseConnection.GetDB()
 
-	// Get the Auth middleware
-	if err := AuthMiddleware(c); err != nil {
-		return err
-	}
-
 	// get auth user data from locals
 	user, ok := c.Locals("user").(models.User)
 
@@ -557,4 +552,70 @@ func DeleteTweet(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{
 		"message": "Tweet deleted successfully",
 	})
+}
+
+func GetReplies(c *fiber.Ctx) error {
+	// get the database connection
+	var db = databaseConnection.GetDB()
+
+	// get the tweet id from the params
+	tweetId := c.Params("id")
+
+	// get the replies from the database
+	var replies []models.Reply
+
+	if err := db.Preload("User").Where("tweet_id = ?", tweetId).Find(&replies).Error; err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Error getting replies",
+			"id":      tweetId,
+		})
+	}
+
+	// check if there is replies or not
+	if len(replies) == 0 {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"message": "No replies found",
+		})
+	}
+
+	var replyPosts []models.ReplyPost
+
+	for _, reply := range replies {
+		createdAt, _ := time.Parse("2006-01-02 15:04:05", reply.CreatedAt)
+
+		// Calculate the time difference in seconds
+		timeDiff := time.Now().Unix() - createdAt.Unix()
+
+		var publishedAtString string
+
+		if timeDiff >= 86400 { // More than a day
+			days := int(math.Floor(float64(timeDiff) / 86400))
+			publishedAtString = fmt.Sprintf("%dd", days)
+		} else if timeDiff >= 3600 { // More than an hour
+			hours := int(math.Floor(float64(timeDiff) / 3600))
+			publishedAtString = fmt.Sprintf("%dh", hours)
+		} else if timeDiff >= 60 { // More than a minute
+			minutes := int(math.Floor(float64(timeDiff) / 60))
+			publishedAtString = fmt.Sprintf("%dmin", minutes)
+		} else { // Less than a minute
+			publishedAtString = "Just now"
+		}
+
+		replyPost := models.ReplyPost{
+			Content:        reply.Content,
+			AuthorName:     reply.User.FullName,
+			AuthorUsername: reply.User.Username,
+			AuthorID:       reply.User.ID,
+			ReplyID:        reply.ID,
+			PublishedAt:    publishedAtString,
+		}
+
+		replyPosts = append(replyPosts, replyPost)
+	}
+
+	return c.JSON(fiber.Map{
+		"message": "Replies of the tweet",
+		"replies": replyPosts,
+	})
+
 }

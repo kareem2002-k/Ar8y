@@ -1,41 +1,32 @@
 //
-//  HomePageViewController.swift
+//  SingleUserViewController.swift
 //  Ar8y
 //
-//  Created by Kareem Ahmed on 21/08/2023.
+//  Created by Kareem Ahmed on 28/08/2023.
 //
 
 import UIKit
-
 import NVActivityIndicatorView
 
 
-class HomePageViewController: UIViewController {
+class SingleUserViewController: UIViewController {
+    
+    var id : Int = 0
+    
+    var user : UserProfiLe?
+    
+    var loadingIndicator: NVActivityIndicatorView!
+    
     
     var userPosts: [TweetPost]? // Array to hold user posts
     
     var refreshControl = UIRefreshControl()
-    
-    var loadingIndicator: NVActivityIndicatorView!
 
 
-
-    @IBAction func AddTweet(_ sender: Any) {
-    }
-    
-
-    @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        hidesBottomBarWhenPushed = false
 
-       // Do any additional setup after loading the view.
-        // Register the custom cell class or nib with the table view
-        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
-        
-        
+       
         loadingIndicator = NVActivityIndicatorView(
               frame: CGRect(x: 0, y: 0, width: 40, height: 40),
               type: .circleStrokeSpin,
@@ -48,28 +39,121 @@ class HomePageViewController: UIViewController {
         
           view.addSubview(loadingIndicator)
         
-        
-        
+        fetchUserData()
         fetchUserPosts()
+
+        tableView.refreshControl = refreshControl
+
+           
+           tableView.register(UINib(nibName: "NameTableViewCell", bundle: nil), forCellReuseIdentifier: "namecell")
+           tableView.register(UINib(nibName: "ContentTableViewCell", bundle: nil), forCellReuseIdentifier: "contentcell")
+           tableView.register(UINib(nibName: "ButtonsTableViewCell", bundle: nil), forCellReuseIdentifier: "buttoncell")
+           
+           tableView.separatorStyle = .none // Remove default separators
+           tableView.rowHeight = UITableView.automaticDimension
+           tableView.estimatedRowHeight = 44 // Set an estimated row height, this can be any value
+           
+           // Set delegate and dataSource
+           tableView.delegate = self
+           tableView.dataSource = self
         
-           tableView.refreshControl = refreshControl
-              
-              tableView.register(UINib(nibName: "NameTableViewCell", bundle: nil), forCellReuseIdentifier: "namecell")
-              tableView.register(UINib(nibName: "ContentTableViewCell", bundle: nil), forCellReuseIdentifier: "contentcell")
-              tableView.register(UINib(nibName: "ButtonsTableViewCell", bundle: nil), forCellReuseIdentifier: "buttoncell")
-              
-              tableView.separatorStyle = .none // Remove default separators
-              tableView.rowHeight = UITableView.automaticDimension
-              tableView.estimatedRowHeight = 44 // Set an estimated row height, this can be any value
-              
-              // Set delegate and dataSource
-              tableView.delegate = self
-              tableView.dataSource = self
+        
+        
+        
+        // Do any additional setup after loading the view.
     }
     
-    @objc func refreshData(_ sender: Any) {
-        fetchUserPosts()
+    
+    
+    
+    
+    @IBOutlet weak var fullnameLabel: UILabel!
+    
+    
+    @IBOutlet weak var userNameLable: UILabel!
+    
+    
+    @IBOutlet weak var bioLabel: UILabel!
+    
+    
+    @IBOutlet weak var numberOfFollowing: UILabel!
+    
+    
+    
+    @IBOutlet weak var numberOfFollowers: UIStackView!
+    
+    
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    
+    @IBOutlet weak var followButton: UIButton!
+    
+    
+    @IBAction func followOrUnfollow(_ sender: Any) {
     }
+    
+    
+    
+    // Hide the bottom Nav bar
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Hide the tab bar
+        tabBarController?.tabBar.isHidden = true
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // Show the tab bar when leaving this view controller
+        tabBarController?.tabBar.isHidden = false
+    }
+    
+    
+    func fetchUserData() {
+          
+        
+        loadingIndicator.startAnimating()
+
+        
+        if let authToken = TokenManager.shared.getToken() {
+            self.loadingIndicator.stopAnimating()
+
+            ProfileData.shared.fetchUserData(for: id, authtoken: authToken) {
+
+                suc , data in
+                
+                
+                if suc , let fetchedata = data {
+                    self.user = fetchedata
+                    
+                    self.fullnameLabel.text = self.user?.FullName
+                    self.userNameLable.text = self.user?.Username
+                    self.bioLabel.text = self.user?.Bio
+                    self.numberOfFollowing.text = "\(self.user!.NumbOfFollowing)"
+                    
+                    
+                    
+                    
+                } else {
+                    print("error getting data")
+                }
+                
+            }
+            
+        }
+        
+        
+
+
+        
+           
+        
+      
+       }
+
     
     
     func fetchUserPosts() {
@@ -80,8 +164,9 @@ class HomePageViewController: UIViewController {
             loadingIndicator.startAnimating()
             
 
+            ProfileData.shared.fetchUserTweets(userId: "\(id)", authtoken: authToken ){
             
-            UserPosts.shared.fetchUserData(authtoken: authToken) { success, tweets in
+         success, tweets in
                 
 
                 self.loadingIndicator.stopAnimating()
@@ -102,7 +187,12 @@ class HomePageViewController: UIViewController {
 
         }
        }
-
+    
+    
+    
+    
+    
+    
     
 
     /*
@@ -116,7 +206,8 @@ class HomePageViewController: UIViewController {
     */
 
 }
-extension HomePageViewController: UITableViewDelegate, UITableViewDataSource {
+
+extension SingleUserViewController: UITableViewDelegate, UITableViewDataSource {
      func numberOfSections(in tableView: UITableView) -> Int {
         return userPosts?.count ?? 0  // You might have only one section
     }
@@ -152,8 +243,6 @@ extension HomePageViewController: UITableViewDelegate, UITableViewDataSource {
             
             cell.likesCount.text = "\(post.LikesCount)"
             cell.tweetID = "\(post.tweetID)"
-            cell.selectionStyle = .none // Disable selection effect
-
             
             if post.Liked {
                 cell.imageview.image =  UIImage(systemName: "heart.fill")
@@ -227,7 +316,10 @@ extension HomePageViewController: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
         if indexPath.row == 1 {
+            
+
             // Perform the push to the desired view controller here
             // For example:
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -264,11 +356,3 @@ extension HomePageViewController: UITableViewDelegate, UITableViewDataSource {
 
 }
 
-
-extension String {
-    func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
-        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
-        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
-        return ceil(boundingBox.height)
-    }
-}

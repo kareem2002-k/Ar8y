@@ -9,7 +9,9 @@ import UIKit
 
 class SinglePostView: UIViewController {
     
-    var userPosts: [TweetPost]? // Array to hold user posts
+    var replies : [ReplyPost]? // Array to hold user posts
+    
+    var tweetID : Int?
 
     
     
@@ -26,11 +28,7 @@ class SinglePostView: UIViewController {
 
 
     @IBOutlet weak var stackOfInput: UIStackView!
-    
-    @IBOutlet weak var contentView: UITextView!
-    
-    @IBOutlet weak var contentViewHeightConstraint: NSLayoutConstraint!
-    
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,22 +39,8 @@ class SinglePostView: UIViewController {
         
         
             if let content = receivedContent {
-                
-                contentView.text = content
-                print(content)
+ 
                 textView.text = content
-                
-              
-                let contentSize = contentView.sizeThatFits(CGSize(width: contentView.frame.size.width, height: CGFloat.greatestFiniteMagnitude))
-                
-                if contentSize.height > 60 {
-                    contentViewHeightConstraint.constant = 150
-                }else {
-                    contentViewHeightConstraint.constant = 50
-
-                }
-                    
-                
               
             }
             if let authorName = receivedAuthorName {
@@ -68,13 +52,17 @@ class SinglePostView: UIViewController {
                 userNameLabel.text = "@" + username
                 }
         
+        
+        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
+        
+        
         fetchUserPosts()
         
            tableview.refreshControl = refreshControl
 
         tableview.register(UINib(nibName: "NameTableViewCell", bundle: nil), forCellReuseIdentifier: "namecell")
         tableview.register(UINib(nibName: "ContentTableViewCell", bundle: nil), forCellReuseIdentifier: "contentcell")
-        tableview.register(UINib(nibName: "ButtonsTableViewCell", bundle: nil), forCellReuseIdentifier: "buttoncell")
+       
         
         tableview.separatorStyle = .none // Remove default separators
         tableview.rowHeight = UITableView.automaticDimension
@@ -83,14 +71,16 @@ class SinglePostView: UIViewController {
         // Set delegate and dataSource
         tableview.delegate = self
         tableview.dataSource = self
-        
-
-              
+                      
         // Do any additional setup after loading the view.
-        
-        
-
     }
+    
+    
+    @objc func refreshData(_ sender: Any) {
+        fetchUserPosts()
+    }
+    
+    
     
     
   
@@ -149,11 +139,11 @@ class SinglePostView: UIViewController {
         
         if let authToken = TokenManager.shared.getToken() {
             
-            UserPosts.shared.fetchUserData(authtoken: authToken) { success, tweets in
-                
+            UserPosts.shared.fetchReplies(for: tweetID!, authtoken: authToken)
+            { success , repliesGot in
 
-                if success, let fetchedTweets = tweets {
-                    self.userPosts = fetchedTweets
+                if success, let fetchedReplies = repliesGot {
+                    self.replies = fetchedReplies
                     self.tableview.reloadData()
                 } else {
                     // Handle error condition, e.g., show an error message
@@ -194,6 +184,23 @@ class SinglePostView: UIViewController {
     
     
     @IBAction func AddReply(_ sender: Any) {
+        
+        if let authToken = TokenManager.shared.getToken() {
+            
+            UserPosts.shared.AddReply(for: tweetID!, authtok: authToken, content: replyOfUserContent.text!) {
+                succ in
+                
+                if succ {
+                    print("done")
+                }
+                
+                
+            }
+        }else {
+            print("error getting token")
+            refreshControl.endRefreshing()
+
+        }
     }
     
     
@@ -221,15 +228,15 @@ class SinglePostView: UIViewController {
 extension SinglePostView: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-       return userPosts?.count ?? 0  // You might have only one section
+       return replies?.count ?? 0  // You might have only one section
    }
    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       return 3 // Return the number of user posts
+       return 2 // Return the number of user posts
    }
    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       guard let post = userPosts?[indexPath.section] else {
+       guard let post = replies?[indexPath.section] else {
            return UITableViewCell()
        }
        
@@ -245,24 +252,7 @@ extension SinglePostView: UITableViewDelegate, UITableViewDataSource {
            let cell = tableView.dequeueReusableCell(withIdentifier: "contentcell", for: indexPath) as! ContentTableViewCell
            cell.content.text = post.Content
            return cell
-           
-       case 2:
-           let cell = tableView.dequeueReusableCell(withIdentifier: "buttoncell", for: indexPath) as! ButtonsTableViewCell
-           
-           cell.likesCount.text = "\(post.LikesCount)"
-           cell.tweetID = "\(post.tweetID)"
-           
-           if post.Liked {
-               cell.imageview.image =  UIImage(systemName: "heart.fill")
-               cell.imageview.tintColor = .red
-           }else{
-               cell.imageview.image =  UIImage(systemName: "heart")
-               cell.imageview.tintColor = .gray
-           }
-           
-           cell.setupImageViewTap() // Enable tap gesture on the image view
-           // Configure action buttons cell here
-           return cell
+     
            
        default:
            return UITableViewCell()
@@ -277,7 +267,7 @@ extension SinglePostView: UITableViewDelegate, UITableViewDataSource {
            return 38 // Height for the name cell
        case 1:
            // Calculate dynamic height for content cell
-           if let post = userPosts?[indexPath.section] {
+           if let post = replies?[indexPath.section] {
                let contentText = post.Content
                let contentFont = UIFont.systemFont(ofSize: 17) // Choose your font
                let labelWidth = tableView.frame.width - 16 // Left and right padding
@@ -285,8 +275,6 @@ extension SinglePostView: UITableViewDelegate, UITableViewDataSource {
                return estimatedHeight + 16 // Add some padding
            }
            return 44 // Default height for content cell
-       case 2:
-           return 44 // Height for the action cell
        default:
            return 44 // Default height for other cells
        }
@@ -314,7 +302,7 @@ extension SinglePostView: UITableViewDelegate, UITableViewDataSource {
    
    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
           // Check if you want to allow selection for this particular row
-          if indexPath.row == 2 {
+          if indexPath.row == 1 {
               return nil // Return nil to prevent selection for row 2
           }
           return indexPath
@@ -323,26 +311,6 @@ extension SinglePostView: UITableViewDelegate, UITableViewDataSource {
    
    
    
-   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       if indexPath.row == 1 {
-           // Perform the push to the desired view controller here
-           // For example:
-           let storyboard = UIStoryboard(name: "Main", bundle: nil)
-           if let singlePost = storyboard.instantiateViewController(withIdentifier: "singlePost") as? SinglePostView {
-               // Assign data to the receiving variables
-                           singlePost.receivedContent = userPosts?[indexPath.section].Content
-                           singlePost.receivedAuthorName = userPosts?[indexPath.section].AuthorName
-                           singlePost.receivedUsername = userPosts?[indexPath.section].AuthorUsername
-                           singlePost.receivedDate = userPosts?[indexPath.section].PublishedAt
-                           singlePost.receivedLikesCount = userPosts?[indexPath.section].LikesCount
-                           singlePost.receivedLiked = userPosts?[indexPath.section].Liked
-                           
-
-               
-               // Configure the detailViewController if needed
-               navigationController?.pushViewController(singlePost, animated: false)
-           }
-       }
-   }
+ 
     
 }
