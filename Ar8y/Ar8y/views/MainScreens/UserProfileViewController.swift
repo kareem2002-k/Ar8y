@@ -39,7 +39,7 @@ class UserProfileViewController: UIViewController {
         
         
         fetchUserData()
-        fetchUserPosts()
+
 
 
         
@@ -119,6 +119,12 @@ class UserProfileViewController: UIViewController {
                     self.followingLabel.text = "\(self.user!.NumbOfFollowing)"
                     self.followerLabel.text = "\(self.user!.NumbOfFollowers)"
                     
+                    print("hi")
+                    
+                    fetchUserPosts()
+                    
+
+                    
                     
                     
                     
@@ -142,7 +148,7 @@ class UserProfileViewController: UIViewController {
             loadingIndicator.startAnimating()
             
 
-            ProfileData.shared.fetchAuthUserTweets(authtoken: authToken) {
+            ProfileData.shared.fetchMyTweets(authtoken: authToken) {
             
          success, tweets in
                 

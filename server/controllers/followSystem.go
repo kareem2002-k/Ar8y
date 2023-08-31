@@ -80,6 +80,7 @@ func FollowUser(c *fiber.Ctx) error {
 		})
 	}
 
+	// Send notification to the followed user
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "Followed successfully",
 	})

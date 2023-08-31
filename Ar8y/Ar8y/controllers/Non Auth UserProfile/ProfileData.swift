@@ -131,7 +131,7 @@ class ProfileData {
         
     }
     
-    func fetchAuthUserTweets (authtoken : String,completion: @escaping (Bool, [TweetPost]?) -> Void) {
+    func fetchMyTweets(authtoken : String,completion: @escaping (Bool, [TweetPost]?) -> Void) {
         
         // Define the API endpoint URL
         let apiUrl = "http://192.168.1.16:8000/getMyTweets" // Replace with your actual API URL
@@ -168,6 +168,8 @@ class ProfileData {
             }
         
     }
+    
+
     
     
     

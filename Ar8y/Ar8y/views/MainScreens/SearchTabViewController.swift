@@ -25,7 +25,12 @@ class SearchTabViewController:  UIViewController, UITableViewDataSource, UITable
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 60 // Set an estimated row height, this can be any value
         
+        
+        
     }
+    
+
+    
 
     // MARK: - UITableViewDataSource
 
@@ -106,7 +111,8 @@ class SearchTabViewController:  UIViewController, UITableViewDataSource, UITable
             if let singleuser = storyboard.instantiateViewController(withIdentifier: "userProfile") as? SingleUserViewController {
                 // Assign data to the receiving variables
                           
-                singleuser.id = searchResults[indexPath.row].ID
+                singleuser.id = (searchResults[indexPath.row].ID)
+                print(searchResults)
 
                 
                 // Configure the detailViewController if needed

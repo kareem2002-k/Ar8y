@@ -18,6 +18,8 @@
 		141B57062A9D10C3000CE9D4 /* UserShowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141B57042A9D10C3000CE9D4 /* UserShowTableViewCell.swift */; };
 		141B57072A9D10C3000CE9D4 /* UserShowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141B57052A9D10C3000CE9D4 /* UserShowTableViewCell.xib */; };
 		14209E642AA09CE50021A289 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14209E632AA09CE50021A289 /* UserProfileViewController.swift */; };
+		14209E662AA0B7520021A289 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14209E652AA0B7520021A289 /* NotificationsViewController.swift */; };
+		14209E692AA0B7890021A289 /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = 14209E682AA0B7890021A289 /* Starscream */; };
 		145703FF2A98E08100A634E2 /* SinglePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145703FE2A98E08100A634E2 /* SinglePostView.swift */; };
 		148296E02A97845600CFD020 /* TabBar2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148296DF2A97845600CFD020 /* TabBar2.swift */; };
 		14AE9D1A2A97EEAA00AB7382 /* NVActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = 14AE9D192A97EEAA00AB7382 /* NVActivityIndicatorView */; };
@@ -54,6 +56,7 @@
 		141B57042A9D10C3000CE9D4 /* UserShowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserShowTableViewCell.swift; sourceTree = "<group>"; };
 		141B57052A9D10C3000CE9D4 /* UserShowTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserShowTableViewCell.xib; sourceTree = "<group>"; };
 		14209E632AA09CE50021A289 /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
+		14209E652AA0B7520021A289 /* NotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
 		145703FE2A98E08100A634E2 /* SinglePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePostView.swift; sourceTree = "<group>"; };
 		148296DF2A97845600CFD020 /* TabBar2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar2.swift; sourceTree = "<group>"; };
 		14AE9D1E2A9805CE00AB7382 /* LikeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeManager.swift; sourceTree = "<group>"; };
@@ -85,6 +88,7 @@
 			files = (
 				14AE9D1A2A97EEAA00AB7382 /* NVActivityIndicatorView in Frameworks */,
 				14D2E99E2A92B442000B03F6 /* Alamofire in Frameworks */,
+				14209E692AA0B7890021A289 /* Starscream in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,6 +105,7 @@
 				141B56F62A9C8DEE000CE9D4 /* SingleUserViewController.swift */,
 				141B56FE2A9D0A6E000CE9D4 /* SearchTabViewController.swift */,
 				14209E632AA09CE50021A289 /* UserProfileViewController.swift */,
+				14209E652AA0B7520021A289 /* NotificationsViewController.swift */,
 			);
 			path = MainScreens;
 			sourceTree = "<group>";
@@ -245,6 +250,7 @@
 			packageProductDependencies = (
 				14D2E99D2A92B442000B03F6 /* Alamofire */,
 				14AE9D192A97EEAA00AB7382 /* NVActivityIndicatorView */,
+				14209E682AA0B7890021A289 /* Starscream */,
 			);
 			productName = Ar8y;
 			productReference = 14D2E9822A92A3F6000B03F6 /* Ar8y.app */;
@@ -277,6 +283,7 @@
 			packageReferences = (
 				14D2E99C2A92B442000B03F6 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				14AE9D182A97EEAA00AB7382 /* XCRemoteSwiftPackageReference "NVActivityIndicatorView" */,
+				14209E672AA0B7890021A289 /* XCRemoteSwiftPackageReference "Starscream" */,
 			);
 			productRefGroup = 14D2E9832A92A3F6000B03F6 /* Products */;
 			projectDirPath = "";
@@ -314,6 +321,7 @@
 				141B57062A9D10C3000CE9D4 /* UserShowTableViewCell.swift in Sources */,
 				141B56FD2A9CB7CB000CE9D4 /* FollowOrUnfollow.swift in Sources */,
 				14AE9D212A980F4A00AB7382 /* AddNewPostViewController.swift in Sources */,
+				14209E662AA0B7520021A289 /* NotificationsViewController.swift in Sources */,
 				14D2E99B2A92B3D5000B03F6 /* tokenManager.swift in Sources */,
 				141B56FA2A9C9FAC000CE9D4 /* ProfileData.swift in Sources */,
 				14AE9D1F2A9805CE00AB7382 /* LikeManager.swift in Sources */,
@@ -558,6 +566,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		14209E672AA0B7890021A289 /* XCRemoteSwiftPackageReference "Starscream" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/daltoniam/Starscream";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 		14AE9D182A97EEAA00AB7382 /* XCRemoteSwiftPackageReference "NVActivityIndicatorView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ninjaprox/NVActivityIndicatorView.git";
@@ -577,6 +593,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		14209E682AA0B7890021A289 /* Starscream */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 14209E672AA0B7890021A289 /* XCRemoteSwiftPackageReference "Starscream" */;
+			productName = Starscream;
+		};
 		14AE9D192A97EEAA00AB7382 /* NVActivityIndicatorView */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 14AE9D182A97EEAA00AB7382 /* XCRemoteSwiftPackageReference "NVActivityIndicatorView" */;

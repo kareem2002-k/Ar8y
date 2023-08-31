@@ -67,6 +67,8 @@ class SingleUserViewController: UIViewController {
     }
     
     
+
+    
     
     
     
@@ -139,6 +141,7 @@ class SingleUserViewController: UIViewController {
         
         // Hide the tab bar
         tabBarController?.tabBar.isHidden = true
+        
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -215,6 +218,7 @@ class SingleUserViewController: UIViewController {
                 if success, let fetchedTweets = tweets {
                     self.userPosts = fetchedTweets
                     self.tableView.reloadData()
+                    print("hi")
                 } else {
                     // Handle error condition, e.g., show an error message
                 }
