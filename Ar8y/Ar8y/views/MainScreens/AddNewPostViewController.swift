@@ -8,6 +8,8 @@
 import UIKit
 
 class AddNewPostViewController: UIViewController {
+    
+
 
     @IBOutlet weak var contentField: UITextView!
     override func viewDidLoad() {
@@ -29,6 +31,9 @@ class AddNewPostViewController: UIViewController {
             PostAdd.shared.AddPost(authtok: auth, content: contentField.text! ){ suc in
                 if suc {
                     print("tweeted")
+                    self.navigationController?.popViewController(animated: true)
+
+                    
                 }else{
                     print("something went wrong")
                 }

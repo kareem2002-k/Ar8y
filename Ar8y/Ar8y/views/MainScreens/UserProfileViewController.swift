@@ -1,39 +1,28 @@
 //
-//  HomePageViewController.swift
+//  UserProfileViewController.swift
 //  Ar8y
 //
-//  Created by Kareem Ahmed on 21/08/2023.
+//  Created by Kareem Ahmed on 31/08/2023.
 //
 
 import UIKit
-
 import NVActivityIndicatorView
 
 
-class HomePageViewController: UIViewController {
+class UserProfileViewController: UIViewController {
+
+    var user : UserProfiLe?
+    
+    var loadingIndicator: NVActivityIndicatorView!
+    
     
     var userPosts: [TweetPost]? // Array to hold user posts
     
     var refreshControl = UIRefreshControl()
     
-    var loadingIndicator: NVActivityIndicatorView!
-
-
-
-    @IBAction func AddTweet(_ sender: Any) {
-    }
     
-
-    @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        hidesBottomBarWhenPushed = false
-
-       // Do any additional setup after loading the view.
-        // Register the custom cell class or nib with the table view
-        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
         
         
         loadingIndicator = NVActivityIndicatorView(
@@ -49,37 +38,101 @@ class HomePageViewController: UIViewController {
           view.addSubview(loadingIndicator)
         
         
-        
+        fetchUserData()
         fetchUserPosts()
+
+
         
-           tableView.refreshControl = refreshControl
-              
-              tableView.register(UINib(nibName: "NameTableViewCell", bundle: nil), forCellReuseIdentifier: "namecell")
-              tableView.register(UINib(nibName: "ContentTableViewCell", bundle: nil), forCellReuseIdentifier: "contentcell")
-              tableView.register(UINib(nibName: "ButtonsTableViewCell", bundle: nil), forCellReuseIdentifier: "buttoncell")
-              
-              tableView.separatorStyle = .none // Remove default separators
-              tableView.rowHeight = UITableView.automaticDimension
-              tableView.estimatedRowHeight = 44 // Set an estimated row height, this can be any value
-              
-              // Set delegate and dataSource
-              tableView.delegate = self
-              tableView.dataSource = self
+        
+        
+        
+        tableView.refreshControl = refreshControl
+
+           
+           tableView.register(UINib(nibName: "NameTableViewCell", bundle: nil), forCellReuseIdentifier: "namecell")
+           tableView.register(UINib(nibName: "ContentTableViewCell", bundle: nil), forCellReuseIdentifier: "contentcell")
+           tableView.register(UINib(nibName: "ButtonsTableViewCell", bundle: nil), forCellReuseIdentifier: "buttoncell")
+           
+           tableView.separatorStyle = .none // Remove default separators
+           tableView.rowHeight = UITableView.automaticDimension
+           tableView.estimatedRowHeight = 44 // Set an estimated row height, this can be any value
+           
+           // Set delegate and dataSource
+           tableView.delegate = self
+           tableView.dataSource = self
+        
+
+        // Do any additional setup after loading the view.
     }
     
-    @objc func refreshData(_ sender: Any) {
-        fetchUserPosts()
+
+    @IBOutlet weak var FullnameLabel: UILabel!
+    
+    
+    @IBOutlet weak var UserNameLabel: UILabel!
+    
+    
+    @IBOutlet weak var bioLabel: UILabel!
+    
+    
+    @IBOutlet weak var followingLabel: UILabel!
+    
+    @IBOutlet weak var followerLabel: UILabel!
+    
+    @IBAction func editProfileButton(_ sender: Any) {
     }
     
     
+    @IBAction func switchValue(_ sender: Any) {
+    }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        // This will be called every time the view is about to appear
-        // Add the code to reload your data here
-        fetchUserPosts()
+    
+    @IBOutlet weak var switchValueoutlet: UISegmentedControl!
+    
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    
+    
+    
+    func fetchUserData() {
+        
+        
+        loadingIndicator.startAnimating()
+        
+        
+        if let authToken = TokenManager.shared.getToken() {
+            self.loadingIndicator.stopAnimating()
+            
+            ProfileData.shared.fetchAuthUserProfile(authtoken: authToken )
+            { [self]
+                
+                suc , data in
+                
+                
+                if suc , let fetchedata = data {
+                    self.user = fetchedata
+                    
+                    self.FullnameLabel.text = self.user?.FullName
+                    self.UserNameLabel.text = self.user?.Username
+                    self.bioLabel.text = self.user?.Bio
+                    self.followingLabel.text = "\(self.user!.NumbOfFollowing)"
+                    self.followerLabel.text = "\(self.user!.NumbOfFollowers)"
+                    
+                    
+                    
+                    
+                    
+                } else {
+                    print("error getting data")
+                }
+                
+            }
+            
+        }
     }
 
+    
     
     func fetchUserPosts() {
           
@@ -89,8 +142,9 @@ class HomePageViewController: UIViewController {
             loadingIndicator.startAnimating()
             
 
+            ProfileData.shared.fetchAuthUserTweets(authtoken: authToken) {
             
-            UserPosts.shared.fetchUserData(authtoken: authToken) { success, tweets in
+         success, tweets in
                 
 
                 self.loadingIndicator.stopAnimating()
@@ -111,9 +165,8 @@ class HomePageViewController: UIViewController {
 
         }
        }
-
     
-
+    
     /*
     // MARK: - Navigation
 
@@ -125,7 +178,10 @@ class HomePageViewController: UIViewController {
     */
 
 }
-extension HomePageViewController: UITableViewDelegate, UITableViewDataSource {
+
+
+
+extension UserProfileViewController: UITableViewDelegate, UITableViewDataSource {
      func numberOfSections(in tableView: UITableView) -> Int {
         return userPosts?.count ?? 0  // You might have only one section
     }
@@ -161,10 +217,6 @@ extension HomePageViewController: UITableViewDelegate, UITableViewDataSource {
             
             cell.likesCount.text = "\(post.LikesCount)"
             cell.tweetID = "\(post.tweetID)"
-            cell.repliesCount.text = "\(post.RepliesCount)"
-            cell.retweetCount.text = "\(post.RetweetsCount)"
-            cell.selectionStyle = .none // Disable selection effect
-
             
             if post.Liked {
                 cell.imageview.image =  UIImage(systemName: "heart.fill")
@@ -175,45 +227,6 @@ extension HomePageViewController: UITableViewDelegate, UITableViewDataSource {
             }
             
             cell.setupImageViewTap() // Enable tap gesture on the image view
-            
-            
-            cell.replyImageTappedAction = { [weak self] in
-                   // Handle reply image tapped action
-                   let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                   if let singlePost = storyboard.instantiateViewController(withIdentifier: "singlePost") as? SinglePostView {
-                       // Configure the replyScreen if needed
-                       singlePost.receivedContent = post.Content
-                       singlePost.receivedAuthorName = post.AuthorName
-                       singlePost.receivedUsername = post.AuthorUsername
-                       singlePost.receivedDate = post.PublishedAt
-                       singlePost.receivedLikesCount = post.LikesCount
-                       singlePost.receivedLiked = post.Liked
-                       
-                       
-                       
-                       if post.Liked {
-                           singlePost.img =  UIImage(systemName: "heart.fill")
-                           singlePost.color = .red
-                       }else{
-                           singlePost.img =  UIImage(systemName: "heart")
-                           singlePost.color = .gray
-                       }
-                       
-                       
-           singlePost.tweetID =  post.tweetID
-                       
-                       
-                       
-                       self?.navigationController?.pushViewController(singlePost, animated: true)
-                   }
-               }
-            
-            
-            
-            
-            cell.replyImageClickedOnHome()
-            
-         
             // Configure action buttons cell here
             return cell
             
@@ -277,7 +290,10 @@ extension HomePageViewController: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
         if indexPath.row == 1 {
+            
+
             // Perform the push to the desired view controller here
             // For example:
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -314,11 +330,3 @@ extension HomePageViewController: UITableViewDelegate, UITableViewDataSource {
 
 }
 
-
-extension String {
-    func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
-        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
-        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
-        return ceil(boundingBox.height)
-    }
-}

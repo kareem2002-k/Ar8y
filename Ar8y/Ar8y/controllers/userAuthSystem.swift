@@ -15,51 +15,12 @@ class UserAuth {
     var CurrentUser : User!
     
     var isAuth : Bool = false
-    
 
-    func fetchUserData(authtoken : String,completion: @escaping (User?, Error?) -> Void) {
-        
-            // Define the API endpoint URL
-            let apiUrl = "http://192.168.1.13:8000/getAuthUserdata" // Replace with your actual API URL
-            
-            // Define the headers with the authentication token
-            let headers: HTTPHeaders = [
-                "Authorization": "Bearer \(authtoken)"
-            ]
-            
-            // Make the GET request
-            AF.request(apiUrl, headers: headers)
-                .validate(statusCode: 200..<300)
-                .responseJSON { response in
-                    switch response.result {
-                    case .success:
-                        if let responseData = response.data {
-                            do {
-                                let userResponse = try JSONDecoder().decode(UserResponse.self, from: responseData)
-                                let currentUser = userResponse.user
-                                print("User data: \(currentUser)")
-                                completion(currentUser, nil)
-                            } catch {
-                                print("Error decoding user data: \(error)")
-                                completion(nil, error)
-                                self.isAuth = true
-                            }
-                        } else {
-                            completion(nil, nil)
-                        }
-                        
-                    case .failure(let error):
-                        print("Error fetching user data: \(error)")
-                        completion(nil, error)
-                    }
-                }
-        
-    }
     
     
     func Login (username : String, password :String ,completion: @escaping (Bool) -> Void)  {
         
-        let loginURL = "http://192.168.1.13:8000/login"
+        let loginURL = "http://192.168.1.16:8000/login"
         let parameters: [String: Any] = ["username": username, "password": password]
         AF.request(loginURL, method: .post, parameters: parameters, encoding: JSONEncoding.default)
             .validate(statusCode: 200..<300)
@@ -103,7 +64,7 @@ class UserAuth {
     
     func Register (email : String, password :String , firstname : String , lastname : String ,completion: @escaping (Bool) -> Void) {
         
-        let loginURL = "http://192.168.1.13:8000/register"
+        let loginURL = "http://192.168.1.16:8000/register"
         let parameters: [String: Any] = ["email": email, "password": password ,"fullname" : "\(firstname) \(lastname)"]
         
         

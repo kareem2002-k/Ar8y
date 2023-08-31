@@ -17,6 +17,8 @@ class ButtonsTableViewCell: UITableViewCell {
         // Initialization code
         
         
+        
+        
     }
     @IBOutlet weak var replyImg: UIImageView!
     
@@ -79,6 +81,30 @@ class ButtonsTableViewCell: UITableViewCell {
         }
                                    
     }
+    
+    
+
+    var replyImageTappedAction: (() -> Void)?
+
+    
+    
+    func replyImageClickedOnHome() {
+           let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(replyImageTappedOnHome))
+           replyImg.addGestureRecognizer(tapGestureRecognizer)
+           replyImg.isUserInteractionEnabled = true
+       }
+    
+    @objc private func replyImageTappedOnHome() {
+      
+        replyImageTappedAction?()
+
+   
+    }
+    
+       
+    
+    
+    
     
 
     override func setSelected(_ selected: Bool, animated: Bool) {

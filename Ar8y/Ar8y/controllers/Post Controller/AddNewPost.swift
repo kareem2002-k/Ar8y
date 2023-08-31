@@ -13,7 +13,7 @@ class PostAdd {
     
     func AddPost (authtok : String ,content : String , completion: @escaping (Bool) -> Void)  {
         
-        let loginURL = "http://192.168.1.13:8000/tweet"
+        let loginURL = "http://192.168.1.16:8000/tweet"
         let parameters: [String: Any] = ["content": content]
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(authtok)"
@@ -58,7 +58,7 @@ class PostAdd {
     
     func Register (email : String, password :String , firstname : String , lastname : String ,completion: @escaping (Bool) -> Void) {
         
-        let loginURL = "http://192.168.1.13:8000/register"
+        let loginURL = "http://192.168.1.16:8000/register"
         let parameters: [String: Any] = ["email": email, "password": password ,"fullname" : "\(firstname) \(lastname)"]
         
         

@@ -12,6 +12,9 @@ import (
 
 func GetUserData(c *fiber.Ctx) error {
 
+	// get the database connection
+	var db = databaseConnection.GetDB()
+
 	// get auth user data from locals
 	user, ok := c.Locals("user").(models.User)
 	if !ok {
@@ -21,10 +24,31 @@ func GetUserData(c *fiber.Ctx) error {
 		})
 	}
 
+	// Get the count of followers and following
+	followersCount := db.Model(&user).Association("Followers").Count()
+	followingCount := db.Model(&user).Association("Following").Count()
+
+	// return it in form of UserProfile
+	var userProfile models.UserProfile
+
+	userProfile.ID = user.ID
+
+	userProfile.Username = user.Username
+
+	userProfile.FullName = user.FullName
+
+	userProfile.Bio = user.Bio
+
+	userProfile.NumbOfFollowers = int(followersCount)
+
+	userProfile.NumbOfFollowing = int(followingCount)
+
+	userProfile.IsFollowedByAuthUser = false
+
 	// At this point, the user's data, including their likes and tweets, is fetched successfully
 	return c.JSON(fiber.Map{
 		"message": "User data",
-		"user":    user,
+		"user":    userProfile,
 	})
 }
 

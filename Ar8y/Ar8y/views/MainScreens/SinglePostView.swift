@@ -25,6 +25,7 @@ class SinglePostView: UIViewController {
        var receivedDate: String?
        var receivedLikesCount: Int?
        var receivedLiked: Bool?
+    
 
 
     @IBOutlet weak var stackOfInput: UIStackView!
@@ -33,6 +34,8 @@ class SinglePostView: UIViewController {
         super.viewDidLoad()
         
         
+        
+        setupImageViewTap()
         // Register for keyboard notifications
           NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
           NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -71,6 +74,14 @@ class SinglePostView: UIViewController {
         // Set delegate and dataSource
         tableview.delegate = self
         tableview.dataSource = self
+        
+        
+        imageview.image = img
+        imageview.tintColor = color
+        
+        likesCount.text = "\(receivedLikesCount!)"
+        
+        
                       
         // Do any additional setup after loading the view.
     }
@@ -79,6 +90,68 @@ class SinglePostView: UIViewController {
     @objc func refreshData(_ sender: Any) {
         fetchUserPosts()
     }
+    
+    
+    var img : UIImage?
+    var color : UIColor?
+
+    
+    @IBOutlet weak var likesCount: UILabel!
+    
+    @IBOutlet weak var repliesCount: UILabel!
+    
+    
+    @IBOutlet weak var retweetsCount: UILabel!
+    
+    
+    @IBOutlet weak var imageview: UIImageView!
+    
+    
+    func setupImageViewTap() {
+           let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageViewTapped))
+           imageview.addGestureRecognizer(tapGestureRecognizer)
+           imageview.isUserInteractionEnabled = true
+       }
+       
+    @objc private func imageViewTapped() {
+        // Handle the tap action here
+        // Toggle between grey and red heart colors
+        if let authtok = TokenManager.shared.getToken(){
+            LikeToggle.shared.Like(authtoken: authtok, tweetID: "\(self.tweetID!)", completion: {
+                suc in
+                
+                if suc {
+                    if  self.imageview.image ==  UIImage(systemName: "heart.fill") {
+                        self.likesCount.text = "\(Int( self.likesCount.text ?? "0")! - 1)"
+                        self.imageview.tintColor = UIColor.gray
+                        self.imageview.image =  UIImage(systemName: "heart")
+                        
+                        
+                    } else {
+                        self.imageview.tintColor = UIColor.red
+                        self.imageview.image =  UIImage(systemName: "heart.fill")
+                        self.likesCount.text = "\(Int( self.likesCount.text ?? "0")! + 1)"
+                        
+                    }
+                } else {
+                    let missingInformationAlert = UIAlertController(title: "Auth Error", message: "Invalid Email or Password. Try again.", preferredStyle: .alert)
+                    let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                    missingInformationAlert.addAction(cancelAction)
+                    self.present(missingInformationAlert, animated: true, completion: nil)
+                }
+            }
+           
+            )
+            // Toggle the heart state
+        }
+                                   
+    }
+    
+    
+    
+    
+    
+    
     
     
     
@@ -171,14 +244,6 @@ class SinglePostView: UIViewController {
     
     @IBOutlet weak var userNameLabel: UILabel!
     
-
-    @IBOutlet weak var likeImage: UIImageView!
-    
-    @IBOutlet weak var likeCount: UILabel!
-    
-    @IBOutlet weak var replyCount: UILabel!
-    
-    @IBOutlet weak var retweetCount: UILabel!
     
     @IBOutlet weak var replyOfUserContent: UITextField!
     
@@ -192,6 +257,10 @@ class SinglePostView: UIViewController {
                 
                 if succ {
                     print("done")
+                    self.fetchUserPosts()
+                    self.replyOfUserContent.resignFirstResponder()
+
+                    
                 }
                 
                 

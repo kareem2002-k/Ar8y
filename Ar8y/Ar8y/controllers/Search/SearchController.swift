@@ -16,7 +16,7 @@ class SearchController {
     func Search(authtoken : String ,query : String,completion: @escaping ( Bool , [UserProfiLe]?) -> Void) {
         
         // Define the API endpoint URL
-        let apiUrl = "http://192.168.1.13:8000/search?q=\(query)" // Replace with your actual API URL
+        let apiUrl = "http://192.168.1.16:8000/search?q=\(query)" // Replace with your actual API URL
         
         // Define the headers with the authentication token
         let headers: HTTPHeaders = [
