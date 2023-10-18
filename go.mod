@@ -3,8 +3,8 @@ module ar8y
 go 1.20
 
 require (
-	github.com/gofiber/contrib/websocket v1.2.0
-	github.com/gofiber/fiber/v2 v2.49.0
+	github.com/gofiber/contrib/websocket v1.2.1
+	github.com/gofiber/fiber/v2 v2.49.1
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	golang.org/x/crypto v0.11.0
 	gorm.io/driver/mysql v1.5.1
@@ -27,5 +27,5 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.49.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
-	golang.org/x/sys v0.11.0 // indirect
+	golang.org/x/sys v0.12.0 // indirect
 )

@@ -20,7 +20,7 @@ class UserAuth {
     
     func Login (username : String, password :String ,completion: @escaping (Bool) -> Void)  {
         
-        let loginURL = "http://192.168.1.16:8000/login"
+        let loginURL = "http://localhost:8000/login"
         let parameters: [String: Any] = ["username": username, "password": password]
         AF.request(loginURL, method: .post, parameters: parameters, encoding: JSONEncoding.default)
             .validate(statusCode: 200..<300)
@@ -64,7 +64,7 @@ class UserAuth {
     
     func Register (email : String, password :String , firstname : String , lastname : String ,completion: @escaping (Bool) -> Void) {
         
-        let loginURL = "http://192.168.1.16:8000/register"
+        let loginURL = "http://localhost:8000/register"
         let parameters: [String: Any] = ["email": email, "password": password ,"fullname" : "\(firstname) \(lastname)"]
         
         

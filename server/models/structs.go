@@ -114,3 +114,11 @@ type UserProfile struct {
 	NumbOfFollowing      int    `json:"numb_of_following"`
 	IsFollowedByAuthUser bool   `json:"is_followed_by_auth_user"`
 }
+
+type Notification struct {
+	ID        uint   `gorm:"primaryKey" json:"id"`
+	fromID    uint   `json:"user_id"`
+	toID      uint   `json:"tweet_id"`
+	Content   string `json:"content"`
+	CreatedAt string `json:"created_at"`
+}

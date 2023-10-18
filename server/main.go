@@ -7,6 +7,8 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 
 	Routes "ar8y/server/routes"
+
+	controlers "ar8y/server/controllers"
 )
 
 func main() {
@@ -19,6 +21,7 @@ func main() {
 	// register the routes
 	Routes.Setup(app)
 
+	controlers.Init()
 	// CORS
 	app.Use(cors.New(cors.Config{
 		AllowCredentials: true,

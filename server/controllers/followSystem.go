@@ -11,6 +11,8 @@ import (
 	"ar8y/server/models"
 
 	"strconv"
+
+	"fmt"
 )
 
 func FollowUser(c *fiber.Ctx) error {
@@ -79,6 +81,10 @@ func FollowUser(c *fiber.Ctx) error {
 			"message": "Error following user",
 		})
 	}
+
+	// Send notification to the followed user
+	notificationMessage := fmt.Sprintf("%s started following you.", user.Username)
+	SendFollowNotification(followedUser.ID, notificationMessage)
 
 	// Send notification to the followed user
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{

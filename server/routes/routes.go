@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"github.com/gofiber/contrib/websocket"
 	"github.com/gofiber/fiber/v2"
 
 	controlers "ar8y/server/controllers"
@@ -13,6 +14,8 @@ func Setup(app *fiber.App) {
 	app.Post("/login", controlers.Login)       // TODO: test this
 
 	app.Post("/logout", controlers.Logout) // tested
+
+	app.Get("/test", websocket.New(controlers.Test)) // tested )
 
 	app.Use(controlers.AuthMiddleware) // Register the AuthMiddleware first
 
@@ -32,4 +35,7 @@ func Setup(app *fiber.App) {
 	app.Get("/getTweets/:id", controlers.GetSpecficUserTweets) // tested
 
 	app.Get("/search", controlers.SearchforUsers) // tested
+
+	app.Get("/ws", websocket.New(controlers.Socket)) // tested )
+
 }

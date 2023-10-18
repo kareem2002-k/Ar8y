@@ -16,7 +16,7 @@ class ProfileData {
     
     func fetchUserData(for userID: Int, authtoken: String, completion: @escaping (Bool, UserProfiLe?) -> Void) {
         // Define the API endpoint URL
-        let apiUrl = "http://192.168.1.16:8000/getUser/\(userID)" // Replace with your actual API URL
+        let apiUrl = "http://localhost:8000/getUser/\(userID)" // Replace with your actual API URL
         
         // Define the headers with the authentication token
         let headers: HTTPHeaders = [
@@ -58,7 +58,7 @@ class ProfileData {
     func fetchUserTweets(userId : String ,authtoken : String,completion: @escaping (Bool, [TweetPost]?) -> Void) {
         
         // Define the API endpoint URL
-        let apiUrl = "http://192.168.1.16:8000/getTweets/\(userId)" // Replace with your actual API URL
+        let apiUrl = "http://localhost:8000/getTweets/\(userId)" // Replace with your actual API URL
         
         // Define the headers with the authentication token
         let headers: HTTPHeaders = [
@@ -97,7 +97,7 @@ class ProfileData {
     func fetchAuthUserProfile(authtoken : String,completion: @escaping (Bool, UserProfiLe?) -> Void) {
         
             // Define the API endpoint URL
-            let apiUrl = "http://192.168.1.16:8000/getAuthUserdata" // Replace with your actual API URL
+            let apiUrl = "http://localhost:8000/getAuthUserdata" // Replace with your actual API URL
             
             // Define the headers with the authentication token
             let headers: HTTPHeaders = [
@@ -134,7 +134,7 @@ class ProfileData {
     func fetchMyTweets(authtoken : String,completion: @escaping (Bool, [TweetPost]?) -> Void) {
         
         // Define the API endpoint URL
-        let apiUrl = "http://192.168.1.16:8000/getMyTweets" // Replace with your actual API URL
+        let apiUrl = "http://localhost:8000/getMyTweets" // Replace with your actual API URL
         
         // Define the headers with the authentication token
         let headers: HTTPHeaders = [
