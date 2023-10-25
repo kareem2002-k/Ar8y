@@ -13,7 +13,7 @@ class PostAdd {
     
     func AddPost (authtok : String ,content : String , completion: @escaping (Bool) -> Void)  {
         
-        let loginURL = "http://192.168.1.4:8000/tweet"
+        let loginURL = "http://localhost:8000/tweet"
         let parameters: [String: Any] = ["content": content]
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(authtok)"
